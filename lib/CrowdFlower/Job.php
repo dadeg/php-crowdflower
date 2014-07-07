@@ -54,7 +54,8 @@ class Job extends CrowdFlower implements CommonInterface
 
     return $this->sendRequest("DELETE", "jobs/".$this->getId());
   }
-//continue here with adding parameters to url correctly
+
+//TODO: add upload parameter and file handling
   public function upload($data){
     $url = "jobs/";
     if($this->getId() !== null){
@@ -66,51 +67,56 @@ class Job extends CrowdFlower implements CommonInterface
   public function copy($all_units = false, $gold = false){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $data['all_units'] = $all_units;
-    $data['gold'] = $gold;
+    $url = "jobs/" . $this->getId() . "/copy?";
+    $parameters = "all_units=" . urlencode($all_units) . "&gold=" . url_encode($gold);
+    $url .= $parameters;
 
-    return $this->sendRequest("POST", "jobs/".$this->id."/copy", $data);
+    return $this->sendRequest("POST", $url);
   }
 
   public function pause(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->id."/pause");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/pause");
   }
 
   public function resume(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->id."/resume");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/resume");
   }
 
   public function cancel(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->id."/cancel");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/cancel");
   }
 
   public function status(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("GET", "jobs/".$this->id."/ping");
+    return $this->sendRequest("GET", "jobs/".$this->getId()."/ping");
   }
 
   public function resetGold(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
-    $data['reset'] = true;
-    return $this->sendRequest("PUT", "jobs/".$this->id."/gold", $data);
+    $url = "jobs/".$this->getId()."/gold?";
+    $parameters = "reset=true";
+    $url .= $parameters;
+    return $this->sendRequest("PUT", $url);
   }
 
   public function setGold($check, $with = false){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
-    $data['check'] = $check;
-    if($with !== false){
-      $data['with'] = $with;
-    }
-    $data['convert_units'] = true;
 
-    return $this->sendRequest("PUT", "jobs/".$this->id."/gold", $data);
+    $url = "jobs/" . $this->id . "/gold?";
+    $parameters = "convert_units=true&check=" . url_encode($check);
+    if($with !== false){
+      $parameters .= "&with=" . url_encode($with);
+    }
+    $url .= $parameters;
+
+    return $this->sendRequest("PUT", $url);
   }
 
 
