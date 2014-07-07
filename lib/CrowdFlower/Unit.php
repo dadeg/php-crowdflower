@@ -66,7 +66,7 @@ class Unit extends CrowdFlower implements CommonInterface
   public function split($on, $with = " "){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/" . $this->getJobId() . "/units/split);
+    return $this->sendRequest("PUT", "jobs/" . $this->getJobId() . "/units/split");
   }
 
 
