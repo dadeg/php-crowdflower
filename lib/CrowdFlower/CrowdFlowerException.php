@@ -23,6 +23,18 @@ class CrowdFlowerException extends Exception
         case 'unit_attributes':
           $message = "No Unit Attributes specified. Use setAttributes() first.";
         break;
+        case 'judgment_id':
+          $message = "No Judgment Id specified. Use setId() first.";
+        break;
+        case 'judgment_attributes':
+          $message = "No Judgment Attributes specified. Use setAttributes() first.";
+        break;
+        case 'order_attributes':
+          $message = "No Order Attributes specified. Use setAttributes() first.";
+        break;
+        default:
+          $message = $message;
+        break;
       }
 
       // make sure everything is assigned properly
