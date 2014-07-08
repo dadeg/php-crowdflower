@@ -24,7 +24,7 @@ class Order extends Base
     if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/orders/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/orders.json/" . $this->getId();
 
     return $this->sendRequest("GET", $url);
 
@@ -33,7 +33,7 @@ class Order extends Base
   public function create($count, $channels = Array("on_demand")){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/orders/?";
+    $url = "jobs/" . $this->getJobId() . "/orders.json/?";
     $parameters = "debit[units_count]=" . urlencode($count) . "&";
     if(is_string($channels)){
       $parameters .= "channels[]=" . $channels;

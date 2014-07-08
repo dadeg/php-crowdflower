@@ -1,6 +1,5 @@
 <?php
 
-namespace CrowdFlower;
 
 require("CrowdFlower/Base.php");
 require("CrowdFlower/CommonInterface.php");
@@ -13,25 +12,25 @@ require("CrowdFlower/Unit.php");
 
 
 
-use CommonInterface;
+use CrowdFlower\CommonInterface;
 use CrowdFlower\Base;
-use CrowdFlowerException;
-use Job;
-use Judgment;
-use Order;
-use Unit;
-use Request;
+use CrowdFlower\CrowdFlowerException;
+use CrowdFlower\Job;
+use CrowdFlower\Judgment;
+use CrowdFlower\Order;
+use CrowdFlower\Unit;
+use CrowdFlower\Request;
 
 class CrowdFlower extends Base {
 
   public function getJobs($page = 1){
-    $url = "jobs/?page=" . urlencode($page);
+    $url = "jobs.json/?page=" . urlencode($page);
     $response = $this->sendRequest("GET", $url);
-    $response = $this->sendRequest("GET", $url);
+
     foreach($response as $jsonjob){
       $job = new Job();
-      $job->setId($jsonjob['id']);
-      $job->setAttributes($jsonjob['attributes']);
+      $job->setId($jsonjob->id);
+      $job->setAttributes($jsonjob->attributes);
       $jobs[] = $job;
     }
     return $jobs;

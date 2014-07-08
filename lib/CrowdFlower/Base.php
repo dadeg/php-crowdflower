@@ -5,11 +5,11 @@ namespace CrowdFlower;
 abstract class Base
 {
   protected $apiKey = "";
-  protected $base_url = "https://api.crowdflower.com/v1/";
+  protected $baseUrl = "https://api.crowdflower.com/v1/";
 
   public function __construct($apiKey)
   {
-    $this->request = new Request($apiKey);
+    $this->request = new Request($apiKey, $this->baseUrl);
   }
 
   /**

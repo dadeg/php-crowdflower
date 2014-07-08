@@ -27,7 +27,7 @@ class Judgment extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/judgments.json/" . $this->getId();
     $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
     $url .= $parameters;
 
@@ -39,7 +39,7 @@ class Judgment extends Base implements CommonInterface
     if($this->getAttributes() === null){ return new CrowdFlowerException('judgment_attributes'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/judgments/?";
+    $url = "jobs/" . $this->getJobId() . "/judgments.json/?";
     $parameters = $this->serializeAttributes($this->getAttributes());
     $url .= $parameters;
 
@@ -51,7 +51,7 @@ class Judgment extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
     if($this->getAttributes() === null){ return new CrowdFlowerException('judgment_attributes'); }
 
-    $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . "?";
+    $url = "jobs/" . $this->getJobId() . "/judgments.json/" . $this->getId() . "?";
     $parameters = $this->serializeAttributes($this->getAttributes());
     $url .= $parameters;
 
@@ -62,7 +62,7 @@ class Judgment extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/judgments.json/" . $this->getId();
 
     return $this->sendRequest("DELETE", $url);
   }

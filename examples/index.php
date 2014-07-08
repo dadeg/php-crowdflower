@@ -2,10 +2,11 @@
 
 require("../lib/CrowdFlower.php");
 
-use CrowdFlower\CrowdFlower;
 
 
-$apiKey = '123';
+$apiKey = 'StQNgqJETkBvyvLU-iiK';
 
-print_r(new CrowdFlower($apiKey));
+$crowd = new CrowdFlower($apiKey);
+$jobs = $crowd->getJobs();
+print_r($jobs);
 print_r("\n");

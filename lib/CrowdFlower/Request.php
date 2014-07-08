@@ -7,9 +7,10 @@ class Request
     /**
      * @param string $apiKey
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey, $baseUrl)
     {
         $this->apiKey = $apiKey;
+        $this->baseUrl = $baseUrl;
     }
 
     /**
@@ -18,9 +19,9 @@ class Request
      * @param array $data request payload
      * @return string JSON
      */
-    public function request($method, $urlModifier, $data)
+    public function send($method, $urlModifier, $data)
     {
-        $url = $this->base_url . $urlModifier;
+        $url = $this->baseUrl . $urlModifier;
         if (stristr($url, "?")) {
            $url .= "&";
         } else {
@@ -40,7 +41,6 @@ class Request
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
             'Content-Length: ' . strlen($data))
         );
 

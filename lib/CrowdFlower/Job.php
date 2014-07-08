@@ -24,7 +24,7 @@ class Job extends Base implements CommonInterface
   public function read(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("GET", "jobs/".$this->getId());
+    return $this->sendRequest("GET", "jobs.json/".$this->getId());
 
   }
 
@@ -33,7 +33,7 @@ class Job extends Base implements CommonInterface
 
     $parameters = $this->serializeAttributes($this->getAttributes());
 
-    $url = "jobs?" . $parameters;
+    $url = "jobs.json?" . $parameters;
 
     return $this->sendRequest("POST", $url);
   }
@@ -44,7 +44,7 @@ class Job extends Base implements CommonInterface
 
     $parameters = $this->serializeAttributes($this->getAttributes());
 
-    $url = "jobs/".$this->getId() . "?" . $parameters;
+    $url = "jobs.json/".$this->getId() . "?" . $parameters;
 
     return $this->sendRequest("PUT", $url);
   }
@@ -52,12 +52,12 @@ class Job extends Base implements CommonInterface
   public function delete(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("DELETE", "jobs/".$this->getId());
+    return $this->sendRequest("DELETE", "jobs.json/".$this->getId());
   }
 
 //TODO: add upload parameter and file handling
   public function upload($data){
-    $url = "jobs/";
+    $url = "jobs.json/";
     if($this->getId() !== null){
       $url .= $this->getId();
     }
@@ -67,7 +67,7 @@ class Job extends Base implements CommonInterface
   public function copy($all_units = false, $gold = false){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getId() . "/copy?";
+    $url = "jobs/" . $this->getId() . "/copy.json?";
     $parameters = "all_units=" . urlencode($all_units) . "&gold=" . urlencode($gold);
     $url .= $parameters;
 
@@ -77,30 +77,30 @@ class Job extends Base implements CommonInterface
   public function pause(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->getId()."/pause");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/pause.json");
   }
 
   public function resume(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->getId()."/resume");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/resume.json");
   }
 
   public function cancel(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/".$this->getId()."/cancel");
+    return $this->sendRequest("PUT", "jobs/".$this->getId()."/cancel.json");
   }
 
   public function status(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("GET", "jobs/".$this->getId()."/ping");
+    return $this->sendRequest("GET", "jobs/".$this->getId()."/ping.json");
   }
 
   public function resetGold(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
-    $url = "jobs/".$this->getId()."/gold?";
+    $url = "jobs/".$this->getId()."/gold.json?";
     $parameters = "reset=true";
     $url .= $parameters;
     return $this->sendRequest("PUT", $url);
@@ -109,7 +109,7 @@ class Job extends Base implements CommonInterface
   public function setGold($check, $with = false){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getId() . "/gold?";
+    $url = "jobs/" . $this->getId() . "/gold.json?";
     $parameters = "convert_units=true&check=" . urlencode($check);
     if($with !== false){
       $parameters .= "&with=" . urlencode($with);
@@ -120,7 +120,7 @@ class Job extends Base implements CommonInterface
   }
 
   public function getUnits(){
-    $url = "jobs/" . $this->getId() . "/units";
+    $url = "jobs/" . $this->getId() . "/units.json";
     return $this->sendRequest("GET", $url);
   }
 
@@ -145,7 +145,7 @@ class Job extends Base implements CommonInterface
   }
 
   public function getJudgments(){
-    $url = "jobs/" . $this->getId() . "/judgments";
+    $url = "jobs/" . $this->getId() . "/judgments.json";
     return $this->sendRequest("GET", $url);
   }
 
@@ -171,7 +171,7 @@ class Job extends Base implements CommonInterface
   public function getChannels(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $this->channels = $this->sendRequest("GET", "jobs/".$this->id."/channels");
+    $this->channels = $this->sendRequest("GET", "jobs/".$this->id."/channels.json");
 
     return $this->channels;
   }
@@ -179,7 +179,7 @@ class Job extends Base implements CommonInterface
   public function setChannels($data){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $this->sendRequest("PUT", "jobs/".$this->id."/channels", $data);
+    $this->sendRequest("PUT", "jobs/".$this->id."/channels.json", $data);
 
     $this->channels = $data;
 

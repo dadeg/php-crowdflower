@@ -25,7 +25,7 @@ class Unit extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId();
 
     return $this->sendRequest("GET", $url);
 
@@ -35,7 +35,7 @@ class Unit extends Base implements CommonInterface
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/?";
+    $url = "jobs/" . $this->getJobId() . "/units.json/?";
     $parameters = $this->serializeAttributes($this->getAttributes());
     $url .= $parameters;
 
@@ -47,7 +47,7 @@ class Unit extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "?";
+    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId() . "?";
     $parameters = $this->serializeAttributes($this->getAttributes());
     $url .= $parameters;
 
@@ -58,7 +58,7 @@ class Unit extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId();
 
     return $this->sendRequest("DELETE", $url);
   }
@@ -66,7 +66,7 @@ class Unit extends Base implements CommonInterface
   public function status(){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/ping";
+    $url = "jobs/" . $this->getJobId() . "/units/ping.json";
 
     return $this->sendRequest("GET", $url);
   }
@@ -75,7 +75,7 @@ class Unit extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel";
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel.json";
 
     return $this->sendRequest("PUT", $url);
   }
@@ -84,7 +84,7 @@ class Unit extends Base implements CommonInterface
   public function split($on, $with = " "){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/split?";
+    $url = "jobs/" . $this->getJobId() . "/units/split.json?";
     $parameters = "on=" . urlencode($on) . "&with=" . urlencode($with);
     $url .= $parameters;
 
@@ -95,7 +95,7 @@ class Unit extends Base implements CommonInterface
 
 
   public function getJudgments(){
-    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments";
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments.json";
     $response = $this->sendRequest("GET", $url);
     foreach($response as $jsonjudgment){
       $judgment = new Judgment();
