@@ -23,7 +23,9 @@ class Unit extends CrowdFlower implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("GET", "jobs/" . $this->getJobId() . "/units/" . $this->getId());
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId();
+
+    return $this->sendRequest("GET", $url);
 
   }
 
@@ -31,7 +33,11 @@ class Unit extends CrowdFlower implements CommonInterface
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("POST", "jobs/" . $this->getJobId() . "/units/", $this->getAttributes());
+    $url = "jobs/" . $this->getJobId() . "/units/?";
+    $parameters = $this->serializeAttributes($this->getAttributes());
+    $url .= $parameters;
+
+    return $this->sendRequest("POST", $url);
   }
 
   public function update(){
@@ -39,34 +45,48 @@ class Unit extends CrowdFlower implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
 
-    return $this->sendRequest("PUT", "jobs/" . $this->getJobId() . "/units/". $this->getId(), $this->getAttributes());
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "?";
+    $parameters = $this->serializeAttributes($this->getAttributes());
+    $url .= $parameters;
+
+    return $this->sendRequest("PUT", $url);
   }
 
   public function delete(){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
 
-    return $this->sendRequest("DELETE", "jobs/" . $this->getJobId() . "/units/" . $this->getId());
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId();
+
+    return $this->sendRequest("DELETE", $url);
   }
 
   public function status(){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("GET", "jobs/" . $this->getJobId() . "/units/ping");
+    $url = "jobs/" . $this->getJobId() . "/units/ping";
+
+    return $this->sendRequest("GET", $url);
   }
 
   public function cancel(){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
 
-    return $this->sendRequest("PUT", "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel");
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel";
+
+    return $this->sendRequest("PUT", $url);
   }
 
 
   public function split($on, $with = " "){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("PUT", "jobs/" . $this->getJobId() . "/units/split");
+    $url = "jobs/" . $this->getJobId() . "/units/split?";
+    $parameters = "on=" . url_encode($on) . "&with=" . url_encode($with);
+    $url .= $parameters;
+
+    return $this->sendRequest("PUT", $url);
   }
 
 
@@ -99,6 +119,20 @@ class Unit extends CrowdFlower implements CommonInterface
 
   public function getAttributes(){
     return $this->attributes;
+  }
+
+
+
+  private function serializeAttributes($parameters){
+    $parameters_str = "";
+    $i = 0;
+    foreach($parameters as $k => $v){
+      if($i++ > 0){
+        $parameters_str .= "&";
+      }
+      $parameters_str .= "unit[" . url_encode($k) . "]=" . url_encode($v);
+    }
+    return $parameters_str;
   }
 
 }

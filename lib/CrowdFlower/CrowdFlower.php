@@ -10,6 +10,7 @@ abstract class CrowdFlower
   /**
    * makes a connection and sends a request to the Crowdflower API
    * @return [type] [description]
+   * TODO: replace with guzzle?
    */
   protected function sendRequest($method, $url_modifier, $data=null){
     $url = $this->base_url . $url_modifier . "?key=" . $this->key;
