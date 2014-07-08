@@ -96,7 +96,16 @@ class Unit extends Base implements CommonInterface
 
   public function getJudgments(){
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments";
-    return $this->sendRequest("GET", $url);
+    $response = $this->sendRequest("GET", $url);
+    foreach($response as $jsonjudgment){
+      $judgment = new Judgment();
+      $judgment->setId($jsonjudgment['id']);
+      $judgment->setAttributes($jsonjudgment['attributes']);
+      $judgment->setJobId($jsonjudgment['job_id']);
+      $judgment->setUnitId($jsonjudgment['unit_id']);
+      $judgments[] = $judgment;
+    }
+    return $judgments;
   }
 
   private function setJobId($job_id){

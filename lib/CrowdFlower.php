@@ -14,7 +14,14 @@ class CrowdFlower extends Base {
 
   public function getJobs($page = 1){
     $url = "jobs/?page=" . urlencode($page);
-    return $this->sendRequest("GET", $url);
+    $response = $this->sendRequest("GET", $url);
+    foreach($response as $jsonjob){
+      $job = new Job();
+      $job->setId($jsonjob['id']);
+      $job->setAttributes($jsonjob['attributes']);
+      $jobs[] = $job;
+    }
+    return $jobs;
   }
 
   public function createJob($attributes){

@@ -8,11 +8,13 @@ namespace CrowdFlower;
 class Judgment extends Base implements CommonInterface
 {
   private $job_id = null;
+  private $unit_id = null;
   private $id = null;
   private $attributes = null;
 
-  private function __construct($job_id, $id = null){
+  private function __construct($job_id, $unit_id, $id = null){
     $this->setJobId($job_id);
+    $this->setUnitId($unit_id);
     if($id !== null){
       $this->setId($id);
       $this->setAttributes($this->read());
@@ -74,7 +76,7 @@ class Judgment extends Base implements CommonInterface
   }
 
   public function getUnit(){
-    $unit = new Unit($this->attributes['job_id'], $this->attributes['unit_id']);
+    $unit = new Unit($this->getJobId(), $this->getUnitId());
     return $unit;
   }
 
@@ -85,6 +87,15 @@ class Judgment extends Base implements CommonInterface
 
   public function getJobId(){
     return $this->job_id;
+  }
+
+  private function setUnitId($unit_id){
+    $this->unit_id = $unit_id;
+    return true;
+  }
+
+  public function getUnitId(){
+    return $this->unit_id;
   }
 
 
