@@ -85,7 +85,7 @@ class Unit extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/split?";
-    $parameters = "on=" . url_encode($on) . "&with=" . url_encode($with);
+    $parameters = "on=" . urlencode($on) . "&with=" . urlencode($with);
     $url .= $parameters;
 
     return $this->sendRequest("PUT", $url);
@@ -136,7 +136,7 @@ class Unit extends Base implements CommonInterface
       if($i++ > 0){
         $parameters_str .= "&";
       }
-      $parameters_str .= "unit[" . url_encode($k) . "]=" . url_encode($v);
+      $parameters_str .= "unit[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
   }

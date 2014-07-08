@@ -11,7 +11,7 @@ class Job extends Base implements CommonInterface
 {
   private $id = null;
   private $attributes = null;
-  private $units = null;
+  private $units = Array();
 
   private function __construct($id = null){
     if($id !== null){
@@ -68,7 +68,7 @@ class Job extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/copy?";
-    $parameters = "all_units=" . urlencode($all_units) . "&gold=" . url_encode($gold);
+    $parameters = "all_units=" . urlencode($all_units) . "&gold=" . urlencode($gold);
     $url .= $parameters;
 
     return $this->sendRequest("POST", $url);
@@ -110,9 +110,9 @@ class Job extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/gold?";
-    $parameters = "convert_units=true&check=" . url_encode($check);
+    $parameters = "convert_units=true&check=" . urlencode($check);
     if($with !== false){
-      $parameters .= "&with=" . url_encode($with);
+      $parameters .= "&with=" . urlencode($with);
     }
     $url .= $parameters;
 
@@ -128,6 +128,7 @@ class Job extends Base implements CommonInterface
     $unit = new Unit();
     $unit->setAttributes($attributes);
     $unit->create();
+    $this->units[] = $unit;
     return $unit;
   }
 
@@ -192,7 +193,7 @@ class Job extends Base implements CommonInterface
       if($i++ > 0){
         $parameters_str .= "&";
       }
-      $parameters_str .= "job[" . url_encode($k) . "]=" . url_encode($v);
+      $parameters_str .= "job[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
   }

@@ -34,7 +34,7 @@ class Order extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/orders/?";
-    $parameters = "debit[units_count]=" . url_encode($count) . "&";
+    $parameters = "debit[units_count]=" . urlencode($count) . "&";
     if(is_string($channels)){
       $parameters .= "channels[]=" . $channels;
     } elseif(is_array($channels)){
@@ -43,7 +43,7 @@ class Order extends Base implements CommonInterface
         if($i++ > 0){
           $parameters .= "&";
         }
-        $parameters .= "channels[]=" . url_encode($channel);
+        $parameters .= "channels[]=" . urlencode($channel);
       }
     } else {
       return new CrowdFlowerException('channels must be a string for a single channel or an array for multiple channels.')

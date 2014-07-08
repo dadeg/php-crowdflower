@@ -26,7 +26,7 @@ class Judgment extends Base implements CommonInterface
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId();
-    $parameters = "limit=" . url_encode($limit) . "&page=" . url_encode($page);
+    $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
     $url .= $parameters;
 
     return $this->sendRequest("GET", $url);
@@ -115,7 +115,7 @@ class Judgment extends Base implements CommonInterface
       if($i++ > 0){
         $parameters_str .= "&";
       }
-      $parameters_str .= "judgment[" . url_encode($k) . "]=" . url_encode($v);
+      $parameters_str .= "judgment[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
   }
