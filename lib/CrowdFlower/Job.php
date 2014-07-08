@@ -3,15 +3,15 @@
 namespace CrowdFlower;
 
 /**
- * /jobs/upload
- * /jobs/{job_id}/upload
+ *
+ *
  *
  */
-class Job extends CrowdFlower implements CommonInterface
+class Job extends Base implements CommonInterface
 {
   private $id = null;
   private $attributes = null;
-
+  private $units = null;
 
   private function __construct($id = null){
     if($id !== null){
@@ -109,7 +109,7 @@ class Job extends CrowdFlower implements CommonInterface
   public function setGold($check, $with = false){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->id . "/gold?";
+    $url = "jobs/" . $this->getId() . "/gold?";
     $parameters = "convert_units=true&check=" . url_encode($check);
     if($with !== false){
       $parameters .= "&with=" . url_encode($with);
@@ -119,7 +119,34 @@ class Job extends CrowdFlower implements CommonInterface
     return $this->sendRequest("PUT", $url);
   }
 
+  public function getUnits(){
+    $url = "jobs/" . $this->getId() . "/units";
+    return $this->sendRequest("GET", $url);
+  }
 
+  public function createUnit($attributes){
+    $unit = new Unit();
+    $unit->setAttributes($attributes);
+    $unit->create();
+    return $unit;
+  }
+
+  public function createUnits($attributes_array){
+    foreach($attributes_array as $k => $attributes){
+      $units[] = $this->createUnit($attributes);
+    }
+    return $units;
+  }
+
+  public function createOrder($numUnits, $channels){
+    $order = new Order();
+    return $order->create($numUnits, $channels);
+  }
+
+  public function getJudgments(){
+    $url = "jobs/" . $this->getId() . "/judgments";
+    return $this->sendRequest("GET", $url);
+  }
 
   public function getId(){
     return $this->id;

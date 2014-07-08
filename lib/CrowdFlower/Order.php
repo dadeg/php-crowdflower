@@ -5,7 +5,7 @@ namespace CrowdFlower;
 /**
  *
  */
-class Order extends CrowdFlower implements CommonInterface
+class Order extends Base implements CommonInterface
 {
   private $job_id = null;
   private $id = null;
@@ -13,7 +13,9 @@ class Order extends CrowdFlower implements CommonInterface
 
   private function __construct($job_id, $id = null){
     $this->setJobId($job_id);
-    $this->setId($id);
+    if($id !== null){
+      $this->setId($id);
+    }
   }
 
 
@@ -58,5 +60,7 @@ class Order extends CrowdFlower implements CommonInterface
   public function delete(){
     return new CrowdFlowerException('Delete not allowed for Orders.');
   }
+
+
 
 }

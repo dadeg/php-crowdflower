@@ -5,7 +5,7 @@ namespace CrowdFlower;
 /**
  *
  */
-class Unit extends CrowdFlower implements CommonInterface
+class Unit extends Base implements CommonInterface
 {
   private $job_id = null;
   private $id = null;
@@ -13,8 +13,10 @@ class Unit extends CrowdFlower implements CommonInterface
 
   private function __construct($job_id, $id = null){
     $this->setJobId($job_id);
-    $this->setId($id);
-    $this->setAttributes($this->read());
+    if($id !== null){
+      $this->setId($id);
+      $this->setAttributes($this->read());
+    }
   }
 
 
@@ -92,6 +94,10 @@ class Unit extends CrowdFlower implements CommonInterface
 
 
 
+  public function getJudgments(){
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments";
+    return $this->sendRequest("GET", $url);
+  }
 
   private function setJobId($job_id){
     $this->job_id = $job_id;
