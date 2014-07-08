@@ -13,7 +13,7 @@ class Job extends Base implements CommonInterface
   private $attributes = null;
   private $units = Array();
 
-  private function __construct($id = null){
+  public function __construct($id = null){
     if($id !== null){
       $this->setId($id);
       $this->setAttributes($this->read());

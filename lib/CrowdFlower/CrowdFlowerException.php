@@ -1,11 +1,11 @@
 <?php
 
-namespace Crowdflower;
+namespace CrowdFlower;
 
 /**
  * ClowdFlower specific exception.
  */
-class CrowdFlowerException extends Exception
+class CrowdFlowerException extends \Exception
 {
   public function __construct($message, $code = 0, Exception $previous = null) {
       // premade messages

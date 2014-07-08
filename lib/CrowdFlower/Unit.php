@@ -11,7 +11,7 @@ class Unit extends Base implements CommonInterface
   private $id = null;
   private $attributes = null;
 
-  private function __construct($job_id, $id = null){
+  public function __construct($job_id, $id = null){
     $this->setJobId($job_id);
     if($id !== null){
       $this->setId($id);

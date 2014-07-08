@@ -5,13 +5,13 @@ namespace CrowdFlower;
 /**
  *
  */
-class Order extends Base implements CommonInterface
+class Order extends Base
 {
   private $job_id = null;
   private $id = null;
 
 
-  private function __construct($job_id, $id = null){
+  public function __construct($job_id, $id = null){
     $this->setJobId($job_id);
     if($id !== null){
       $this->setId($id);
@@ -39,14 +39,14 @@ class Order extends Base implements CommonInterface
       $parameters .= "channels[]=" . $channels;
     } elseif(is_array($channels)){
       $i = 0;
-      foreach($channels as $v = $channel){
+      foreach($channels as $v => $channel){
         if($i++ > 0){
           $parameters .= "&";
         }
         $parameters .= "channels[]=" . urlencode($channel);
       }
     } else {
-      return new CrowdFlowerException('channels must be a string for a single channel or an array for multiple channels.')
+      return new CrowdFlowerException('channels must be a string for a single channel or an array for multiple channels.');
     }
     $url .= $parameters;
 
