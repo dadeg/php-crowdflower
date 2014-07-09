@@ -41,7 +41,7 @@ class Job extends Base implements CommonInterface
   public function create($attributes = array())
   {
     $url = "jobs.json";
-
+    $attributes = $this->serializeAttributes($attributes);
     $attributes = $this->sendRequest("POST", $url, $attributes);
 
     $this->setAttributes($attributes);

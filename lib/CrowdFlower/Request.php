@@ -35,7 +35,8 @@ class Request
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
         if ($data !== null) {
-            $data = json_encode($data);
+
+            curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }
 
