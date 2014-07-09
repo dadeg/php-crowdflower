@@ -13,13 +13,18 @@ class Job extends Base implements CommonInterface
   private $attributes = null;
   private $units = Array();
 
-  public function __construct($id = null){
-    if($id !== null){
+  public function __construct($id = null, $attributes = array(), $request = null)
+  {
+    if ($id !== null){
       $this->setId($id);
-      $this->setAttributes($this->read());
+
+      if ($attributes) {
+        $this->setAttributes($attributes);
+      } else {
+        $this->setAttributes($this->read());
+      }
     }
   }
-
 
   public function read(){
     if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
@@ -197,8 +202,4 @@ class Job extends Base implements CommonInterface
     }
     return $parameters_str;
   }
-
-
-
-
 }

@@ -7,11 +7,6 @@ abstract class Base
   protected $apiKey = "";
   protected $baseUrl = "https://api.crowdflower.com/v1/";
 
-  public function __construct($apiKey)
-  {
-    $this->request = new Request($apiKey, $this->baseUrl);
-  }
-
   /**
    * makes a connection and sends a request to the Crowdflower API
    * @return [type] [description]
