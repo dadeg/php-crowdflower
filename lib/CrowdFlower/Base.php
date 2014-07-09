@@ -6,6 +6,7 @@ abstract class Base
 {
   protected $apiKey = "";
   protected $baseUrl = "https://api.crowdflower.com/v1/";
+  protected $attributes = array();
 
   public function __construct($apiKey)
   {

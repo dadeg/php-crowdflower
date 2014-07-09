@@ -10,11 +10,13 @@ namespace CrowdFlower;
 class Job extends Base implements CommonInterface
 {
   private $id = null;
-  private $attributes = null;
   private $units = Array();
 
-  public function __construct($id = null){
-    if($id !== null){
+  public function __construct(Request $request, $id = null, $attributes = array())
+  {
+    $this->request = $request;
+
+    if ($id !== null) {
       $this->setId($id);
       $this->setAttributes($this->read());
     }
@@ -28,14 +30,19 @@ class Job extends Base implements CommonInterface
 
   }
 
-  public function create(){
-    if($this->getAttributes() === null){ return new CrowdFlowerException('job_attributes'); }
+  public function create($attributes = array())
+  {
+    $url = "jobs.json";
 
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    if ($attributes) {
+      $url .= '?' . $this->serializeAttributes($attributes);
+    }
 
-    $url = "jobs.json?" . $parameters;
+    $attributes = $this->sendRequest("POST", $url);
+    $this->setId($attributes->id);
+    $this->setAttributes($attributes);
 
-    return $this->sendRequest("POST", $url);
+    return $this;
   }
 
   public function update(){
@@ -163,7 +170,7 @@ class Job extends Base implements CommonInterface
   }
 
   public function setAttributes($data){
-    $this->attributes = $data;
+    $this->attributes = (array) $data;
     return true;
   }
 
