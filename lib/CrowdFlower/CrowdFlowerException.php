@@ -4,6 +4,8 @@ namespace CrowdFlower;
 
 /**
  * ClowdFlower specific exception.
+ * TODO: may want to make sure we are passing 300, 400 and 500 level response
+ *       codes as the second argument to the constructor
  */
 class CrowdFlowerException extends \Exception
 {

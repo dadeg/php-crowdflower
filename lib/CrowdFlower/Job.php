@@ -2,15 +2,10 @@
 
 namespace CrowdFlower;
 
-/**
- *
- *
- *
- */
 class Job extends Base implements CommonInterface
 {
   protected $attributes = null;
-  private $units = Array();
+  private $units = array();
 
   public function __construct(Request $request, $id = null, $attributes = array())
   {
@@ -27,17 +22,6 @@ class Job extends Base implements CommonInterface
     }
   }
 
-  public function read(){
-    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
-
-    $response = $this->sendRequest("GET", "jobs/".$this->getId() . ".json");
-
-    $this->setAttributes($response);
-
-    return $response;
-
-  }
-
   public function create($attributes = array())
   {
     $url = "jobs.json";
@@ -49,21 +33,31 @@ class Job extends Base implements CommonInterface
     return $this;
   }
 
-  public function update(){
+  public function update()
+  {
     if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
     if($this->getAttributes() === null){ throw new CrowdFlowerException('job_attributes'); }
 
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $url = "jobs/" . $this->getId() . ".json";
 
-    $url = "jobs.json/".$this->getId() . "?" . $parameters;
+    $attributes = $this->sendRequest("PUT", $url, $this->getAttributes());
+    $this->setAttributes($attributes);
 
-    return $this->sendRequest("PUT", $url);
+    return $this;
   }
 
-  public function delete(){
+  public function delete()
+  {
     if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
 
-    return $this->sendRequest("DELETE", "jobs.json/".$this->getId());
+    $response = $this->sendRequest("DELETE", "jobs.json/".$this->getId());
+
+    if (!$response->message->success) {
+      $message = $response->error->message ?: $response->notice->message;
+      throw new CrowdFlowerException($message);
+    }
+
+    return true;
   }
 
 //TODO: add upload parameter and file handling
@@ -210,5 +204,16 @@ class Job extends Base implements CommonInterface
       $parameters_str .= "job[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
+  }
+
+  private function read(){
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
+
+    $response = $this->sendRequest("GET", "jobs/".$this->getId() . ".json");
+
+    $this->setAttributes($response);
+
+    return $response;
+
   }
 }
