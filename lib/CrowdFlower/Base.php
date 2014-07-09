@@ -5,6 +5,8 @@ namespace CrowdFlower;
 abstract class Base
 {
 
+  protected $attributes = array();
+
   /**
    * makes a connection and sends a request to the Crowdflower API
    * @return [type] [description]

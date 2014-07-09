@@ -24,20 +24,17 @@ class Account extends Base
     $url = "jobs.json/?page=" . urlencode($page);
     $response = $this->sendRequest("GET", $url);
 
-    foreach($response as $jsonjob){
-      $job = new Job($jsonjob->id, $jsonjob, $this->request);
-      $jobs[] = $job;
+    foreach ($response as $jsonjob) {
+      $jobs[] = new Job($this->request, $jsonjob->id, $jsonjob);
     }
+
     return $jobs;
   }
 
-  public function createJob($attributes = null){
-    $job = new Job(null, null, $this->request);
-    print_r($job);
-    if($attributes !== null){
-      $job->setAttributes($attributes);
-    }
-    print_r($job->create());
+  public function createJob($attributes = array()){
+    $job = new Job($this->request);
+    $job->create($attributes);
+
     return $job;
   }
 }

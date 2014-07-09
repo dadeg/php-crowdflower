@@ -12,12 +12,11 @@ class Job extends Base implements CommonInterface
   protected $attributes = null;
   private $units = Array();
 
-  public function __construct($id = null, $attributes = array(), $request = null)
+  public function __construct(Request $request, $id = null, $attributes = array())
   {
-    if($request !== null){
-      $this->request = $request;
-    }
-    if ($id !== null){
+    $this->request = $request;
+
+    if ($id !== null) {
       $this->setId($id);
 
       if ($attributes) {
@@ -39,18 +38,15 @@ class Job extends Base implements CommonInterface
 
   }
 
-  public function create(){
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('job_attributes'); }
+  public function create($attributes = array())
+  {
+    $url = "jobs.json";
 
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $attributes = $this->sendRequest("POST", $url, $attributes);
 
-    $url = "jobs.json?" . $parameters;
+    $this->setAttributes($attributes);
 
-    $response = $this->sendRequest("POST", $url);
-print_r($response);
-    $this->setAttributes($response);
-
-    return $response;
+    return $this;
   }
 
   public function update(){
@@ -181,6 +177,7 @@ print_r($response);
     foreach((array) $data as $attribute => $value){
       $this->setAttribute($attribute, $value);
     }
+
     return true;
   }
 
