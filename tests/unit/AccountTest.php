@@ -43,7 +43,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             "title" => $title
         ));
 
-        $this->assertEquals($title, $job->getTitle());
+        $this->assertEquals($title, $job->getAttribute('title'));
     }
 
     public function testCreateJobWithUnits()
