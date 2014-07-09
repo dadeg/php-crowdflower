@@ -2,24 +2,13 @@
 
 require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
-<<<<<<< HEAD
-=======
 use CrowdFlower\Account;
 
->>>>>>> account_test
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetJobs()
     {
         $jobsJson = file_get_contents(
-<<<<<<< HEAD
-            dirname(__DIR__) . DIRECTORY_SEPARATOR .
-            'fixtures' . DIRECTORY_SEPARATOR . 'jobs.json'
-        );
-
-        $account = new \CrowdFlower\Account($this->getMockedRequest($jobsJson));
-        $jobs = $account->getJobs();
-=======
             $this->getFixturePath() . DIRECTORY_SEPARATOR . 'jobs.json'
         );
 
@@ -67,7 +56,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     private function getFixturePath()
     {
         return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'fixtures';
->>>>>>> account_test
+
     }
 
     private function getMockedRequest($response)

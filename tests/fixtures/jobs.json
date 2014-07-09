@@ -53,11 +53,7 @@
     "minimum_requirements":null,
     "webhook_uri":null,
     "execution_mode":"worker_ui_remix",
-<<<<<<< HEAD
-    "secret":"98dsfSDJHF8sfdg09knoidjf9",
-=======
     "secret":"1654t6531sd1sd1a5",
->>>>>>> account_test
     "crowd_costs":100.00,
     "auto_order_threshold":null,
     "minimum_account_age_seconds":0,
@@ -86,8 +82,6 @@
       "override_gold":null,
       "reject_at":"70.0"
     }
-<<<<<<< HEAD
-=======
   },
   {
     "judgments_count":26512,
@@ -172,6 +166,5 @@
       "override_gold":null,
       "reject_at":"70.0"
     }
->>>>>>> account_test
   }
 ]
