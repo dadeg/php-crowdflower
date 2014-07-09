@@ -4,8 +4,6 @@ namespace CrowdFlower;
 
 abstract class Base
 {
-  protected $apiKey = "";
-  protected $baseUrl = "https://api.crowdflower.com/v1/";
 
   /**
    * makes a connection and sends a request to the Crowdflower API
@@ -18,16 +16,12 @@ abstract class Base
     return json_decode($result);
   }
 
-  public function __call($name, $arguments)
-  {
-    $prefix = substr($name, 0, 3);
-    $attribute = substr($name, 3);
-    $attribute = strtolower(preg_replace("[A-Z]", "_\$1", $attribute));
-    if ($prefix == "set"){
-      $this->attributes[$attribute] = $arguments;
-    }
-    if($prefix == "get"){
-      return $this->attributes[$attribute];
-    }
+  public function setAttribute($attribute, $value){
+    $this->attributes[$attribute] = $value;
+    return true;
+  }
+
+  public function getAttribute($attribute){
+    return $this->attributes[$attribute];
   }
 }

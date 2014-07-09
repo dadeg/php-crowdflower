@@ -4,11 +4,13 @@ namespace CrowdFlower;
 
 class Account extends Base
 {
+  protected $baseUrl = "https://api.crowdflower.com/v1/";
+
   public function __construct($param)
   {
     if (is_string($param)) {
       $apiKey = $param;
-      $this->request = new Request($apiKey);
+      $this->request = new Request($apiKey, $this->baseUrl);
     } else if ($param instanceof Request) {
       $this->request = $param;
     } else {
@@ -23,17 +25,19 @@ class Account extends Base
     $response = $this->sendRequest("GET", $url);
 
     foreach($response as $jsonjob){
-      $job = new Job($jsonjob->id, $this->request);
-      $job->setAttributes($jsonjob->attributes);
+      $job = new Job($jsonjob->id, $jsonjob, $this->request);
       $jobs[] = $job;
     }
     return $jobs;
   }
 
-  public function createJob($attributes){
-    $job = new Job();
-    $job->setAttributes($attributes);
-    $job->create();
+  public function createJob($attributes = null){
+    $job = new Job(null, null, $this->request);
+    print_r($job);
+    if($attributes !== null){
+      $job->setAttributes($attributes);
+    }
+    print_r($job->create());
     return $job;
   }
 }
