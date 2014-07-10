@@ -14,8 +14,19 @@ abstract class Base
   protected function sendRequest($method, $url_modifier, $data=null)
   {
     $result = $this->request->send($method, $url_modifier, $data);
+    $result = json_decode($result);
 
-    return json_decode($result);
+    if($result->error || $result->notice){
+      if($result->error->message || $result->notice->message){
+        $message = $result->error->message ?: $result->notice->message;
+      } else {
+        $message = $result->error ?: $result->notice;
+      }
+
+      throw new CrowdFlowerException($message);
+    }
+
+    return $result;
   }
 
   public function setAttribute($attribute, $value){
@@ -23,7 +34,19 @@ abstract class Base
     return true;
   }
 
+  public function setAttributes($data){
+    foreach((array) $data as $attribute => $value){
+      $this->setAttribute($attribute, $value);
+    }
+
+    return true;
+  }
+
   public function getAttribute($attribute){
     return $this->attributes[$attribute];
+  }
+
+  public function getAttributes(){
+    return $this->attributes;
   }
 }

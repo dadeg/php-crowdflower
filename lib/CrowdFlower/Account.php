@@ -31,6 +31,10 @@ class Account extends Base
     return $jobs;
   }
 
+  public function getJob($id){
+    return new Job($this->request, $id);
+  }
+
   public function createJob($attributes = array()){
     $job = new Job($this->request);
     $job->create($attributes);

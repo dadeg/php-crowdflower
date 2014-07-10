@@ -7,39 +7,57 @@ namespace CrowdFlower;
  */
 class Unit extends Base implements CommonInterface
 {
-  private $job_id = null;
-  private $id = null;
-  private $attributes = null;
 
-  public function __construct($job_id, $id = null){
+  protected $attributes = null;
+  private $read_only = Array(
+    "created_at",
+    "id",
+    "judgments_count",
+    "updated_at"
+  );
+
+  public function __construct(Request $request, $job_id, $id = null, $attributes = array()){
+    $this->request = $request;
     $this->setJobId($job_id);
-    if($id !== null){
+
+    if ($id !== null) {
       $this->setId($id);
-      $this->setAttributes($this->read());
+
+      if ($attributes) {
+        $this->setAttributes($attributes);
+      } else {
+        $this->read();
+      }
     }
   }
 
 
 
-  public function read(){
+  private function read(){
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
-    return $this->sendRequest("GET", $url);
+    $response = $this->sendRequest("GET", $url);
 
+    $this->setAttributes($response);
+
+    return $response;
   }
 
   public function create(){
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units.json/?";
+    $url = "jobs/" . $this->getJobId() . "/units.json";
     $parameters = $this->serializeAttributes($this->getAttributes());
-    $url .= $parameters;
+    $attributes = $this->sendRequest("POST", $url, $parameters);
 
-    return $this->sendRequest("POST", $url);
+    $this->setAttributes($attributes);
+
+    return $this;
+
   }
 
   public function update(){
@@ -47,28 +65,20 @@ class Unit extends Base implements CommonInterface
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
     if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId() . "?";
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
     $parameters = $this->serializeAttributes($this->getAttributes());
-    $url .= $parameters;
 
-    return $this->sendRequest("PUT", $url);
+
+    return $this->sendRequest("PUT", $url, $parameters);
   }
 
   public function delete(){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units.json/" . $this->getId();
+    $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
     return $this->sendRequest("DELETE", $url);
-  }
-
-  public function status(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-
-    $url = "jobs/" . $this->getJobId() . "/units/ping.json";
-
-    return $this->sendRequest("GET", $url);
   }
 
   public function cancel(){
@@ -84,57 +94,58 @@ class Unit extends Base implements CommonInterface
   public function split($on, $with = " "){
     if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
 
-    $url = "jobs/" . $this->getJobId() . "/units/split.json?";
+    $url = "jobs/" . $this->getJobId() . "/units/split.json";
     $parameters = "on=" . urlencode($on) . "&with=" . urlencode($with);
-    $url .= $parameters;
 
-    return $this->sendRequest("PUT", $url);
+
+    return $this->sendRequest("PUT", $url, $parameters);
   }
 
+  public function createJudgment($attributes){
+    $judgment = new Judgment($this->request, $this->getJobId(), $this->getId());
+    $judgment->setAttributes($attributes);
+    $judgment->create();
+    $this->judgments[] = $judgment;
+    return $judgment;
+  }
 
+  public function createJudgments($attributes_array){
+    foreach($attributes_array as $k => $attributes){
+      $judgments[] = $this->createJudgment($attributes);
+    }
+    return $judgments;
+  }
 
 
   public function getJudgments(){
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments.json";
     $response = $this->sendRequest("GET", $url);
-    foreach($response as $jsonjudgment){
-      $judgment = new Judgment();
-      $judgment->setId($jsonjudgment['id']);
-      $judgment->setAttributes($jsonjudgment['attributes']);
-      $judgment->setJobId($jsonjudgment['job_id']);
-      $judgment->setUnitId($jsonjudgment['unit_id']);
-      $judgments[] = $judgment;
+    foreach((array) $response as $jsonjudgment){
+      $judgments[] = new Judgment($this->request, $this->getJobId(), $this->getId(), $jsonjudgment->id, $jsonjudgment);
     }
-    return $judgments;
+    $this->judgments = $judgments;
+    return $this->judgments;
   }
 
   private function setJobId($job_id){
-    $this->job_id = $job_id;
+    $this->attributes['job_id'] = $job_id;
     return true;
   }
 
   public function getJobId(){
-    return $this->job_id;
+    return $this->attributes['job_id'];
   }
 
 
   public function setId($id){
-    $this->id = $id;
+    $this->attributes['id'] = $id;
     return true;
   }
 
   public function getId(){
-    return $this->id;
+    return $this->attributes['id'];
   }
 
-  public function setAttributes($data){
-    $this->attributes = $data;
-    return true;
-  }
-
-  public function getAttributes(){
-    return $this->attributes;
-  }
 
 
 
@@ -142,9 +153,18 @@ class Unit extends Base implements CommonInterface
     $parameters_str = "";
     $i = 0;
     foreach($parameters as $k => $v){
+      if(in_array($k, $this->read_only)){
+        continue;
+      }
       if($i++ > 0){
         $parameters_str .= "&";
       }
+
+      //convert value to json if it is an object or array.
+      if(is_array($v) || is_object($v)){
+        $v = json_encode($v);
+      }
+
       $parameters_str .= "unit[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
