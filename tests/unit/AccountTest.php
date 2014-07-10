@@ -1,10 +1,10 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
+require_once('CrowdFlowerTestCase.php');
 
 use CrowdFlower\Account;
 
-class AccountTest extends \PHPUnit_Framework_TestCase
+class AccountTest extends CrowdFlowerTestCase
 {
     public function testGetJobs()
     {
@@ -51,25 +51,5 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete(
               'This test has not been implemented yet.'
         );
-    }
-
-    private function getFixturePath()
-    {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'fixtures';
-
-    }
-
-    private function getMockedRequest($response)
-    {
-        $request = $this->getMockBuilder('CrowdFlower\Request')
-                        ->disableOriginalConstructor()
-                        ->setMethods(array('send'))
-                        ->getMock();
-
-        $request->expects($this->any())
-                ->method('send')
-                ->will($this->returnValue($response));
-
-        return $request;
     }
 }
