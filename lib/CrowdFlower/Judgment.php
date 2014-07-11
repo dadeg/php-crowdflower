@@ -8,7 +8,7 @@ namespace CrowdFlower;
 class Judgment extends Base implements CommonInterface
 {
   protected $object_type = 'judgment';
-  private $read_only = Array(
+  protected $read_only = Array(
     "started_at",
     "created_at",
     "job_id",

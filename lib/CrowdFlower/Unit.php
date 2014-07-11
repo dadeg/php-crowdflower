@@ -8,7 +8,7 @@ namespace CrowdFlower;
 class Unit extends Base implements CommonInterface
 {
   protected $object_type = 'unit';
-  private $read_only = Array(
+  protected $read_only = Array(
     "created_at",
     "id",
     "judgments_count",

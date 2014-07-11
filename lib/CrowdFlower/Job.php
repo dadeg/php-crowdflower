@@ -5,9 +5,9 @@ namespace CrowdFlower;
 class Job extends Base implements CommonInterface
 {
   protected $object_type = 'job';
-  private $units = array();
-  private $judgments = array();
-  private $channels = array();
+  protected $units = array();
+  protected $judgments = array();
+  protected $channels = array();
 
   private $read_only = array(
     "completed",
