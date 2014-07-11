@@ -7,7 +7,7 @@ namespace CrowdFlower;
  */
 class Judgment extends Base implements CommonInterface
 {
-
+  protected $object_type = 'judgment';
   private $read_only = Array(
     "started_at",
     "created_at",
@@ -123,24 +123,5 @@ class Judgment extends Base implements CommonInterface
 
 
 
-  private function serializeAttributes($parameters){
-    $parameters_str = "";
-    $i = 0;
-    foreach($parameters as $k => $v){
-      if(in_array($k, $this->read_only)){
-        continue;
-      }
-      if($i++ > 0){
-        $parameters_str .= "&";
-      }
 
-      //convert value to json if it is an object or array.
-      if(is_array($v) || is_object($v)){
-        $v = json_encode($v);
-      }
-
-      $parameters_str .= "judgment[" . urlencode($k) . "]=" . urlencode($v);
-    }
-    return $parameters_str;
-  }
 }
