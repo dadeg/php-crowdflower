@@ -4,9 +4,12 @@ namespace CrowdFlower;
 
 class Job extends Base implements CommonInterface
 {
-  protected $attributes = null;
+
   private $units = array();
-  private $read_only = Array(
+  private $judgments = array();
+  private $channels = array();
+
+  private $read_only = array(
     "completed",
     "completed_at",
     "created_at",
@@ -197,14 +200,6 @@ class Job extends Base implements CommonInterface
     return $this->sendRequest("GET", $url);
   }
 
-  public function getId(){
-    return $this->attributes['id'];
-  }
-
-  public function setId($id){
-    $this->attributes['id'] = $id;
-    return true;
-  }
 
 
 

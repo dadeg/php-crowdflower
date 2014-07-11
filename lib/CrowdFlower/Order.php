@@ -7,7 +7,6 @@ namespace CrowdFlower;
  */
 class Order extends Base
 {
-  protected $attributes = null;
 
 
   public function __construct(Request $request, $job_id, $id = null){
@@ -66,14 +65,7 @@ class Order extends Base
   }
 
 
-  public function setId($id){
-    $this->attributes['id'] = $id;
-    return true;
-  }
 
-  public function getId(){
-    return $this->attributes['id'];
-  }
 
   public function setJobId($job_id){
     $this->attributes['job_id'] = $job_id;

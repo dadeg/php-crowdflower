@@ -8,7 +8,6 @@ namespace CrowdFlower;
 class Unit extends Base implements CommonInterface
 {
 
-  protected $attributes = null;
   private $read_only = Array(
     "created_at",
     "id",
@@ -138,14 +137,7 @@ class Unit extends Base implements CommonInterface
   }
 
 
-  public function setId($id){
-    $this->attributes['id'] = $id;
-    return true;
-  }
 
-  public function getId(){
-    return $this->attributes['id'];
-  }
 
 
 

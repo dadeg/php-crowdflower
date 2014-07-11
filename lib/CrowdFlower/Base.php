@@ -29,6 +29,17 @@ abstract class Base
     return $result;
   }
 
+
+  public function getId(){
+    return $this->attributes['id'];
+  }
+
+  public function setId($id){
+    $this->attributes['id'] = $id;
+    return true;
+  }
+
+
   public function setAttribute($attribute, $value){
     $this->attributes[$attribute] = $value;
     return true;
