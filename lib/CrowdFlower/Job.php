@@ -9,7 +9,7 @@ class Job extends Base implements CommonInterface
   protected $judgments = array();
   protected $channels = array();
 
-  private $read_only = array(
+  protected $read_only = array(
     "completed",
     "completed_at",
     "created_at",
