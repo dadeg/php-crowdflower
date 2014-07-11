@@ -1,4 +1,5 @@
 # PHP Crowdflower API integration.
+[![Code Climate](https://codeclimate.com/github/dadeg/php-crowdflower.png)](https://codeclimate.com/github/dadeg/php-crowdflower)
 ## Currently under heavy development
 
 ## Installation
