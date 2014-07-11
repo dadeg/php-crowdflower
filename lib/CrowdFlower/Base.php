@@ -62,7 +62,7 @@ abstract class Base
     return $this->attributes;
   }
 
-  private function serializeAttributes($parameters){
+  protected function serializeAttributes($parameters){
     $parameters_str = "";
     $i = 0;
     foreach($parameters as $k => $v){
