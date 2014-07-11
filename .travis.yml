@@ -1,0 +1,7 @@
+language: php
+php:
+ - 5.5
+ - 5.4
+ - hhvm
+script: vendor/bin/php tests
+install: composer install
