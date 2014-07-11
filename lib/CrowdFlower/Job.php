@@ -138,6 +138,7 @@ class Job extends Base implements CommonInterface
   public function getUnits(){
     $url = "jobs/" . $this->getId() . "/units.json";
     $response = $this->sendRequest("GET", $url);
+    $units = Array();
     foreach ((array) $response as $unit_id => $unit_data) {
       $units[] = new Unit($this->request, $this->getId(), $unit_id);
     }
@@ -165,21 +166,22 @@ class Job extends Base implements CommonInterface
   }
 
   public function unitsStatus(){
-    if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/units/ping.json";
 
     return $this->sendRequest("GET", $url);
   }
 
-  public function createOrder($numUnits, $channels){
-    $order = new Order();
+  public function createOrder($numUnits = 0, $channels = "on_demand"){
+    $order = new Order($this->request, $this->getId());
     return $order->create($numUnits, $channels);
   }
 
   public function getJudgments(){
     $url = "jobs/" . $this->getId() . "/judgments.json";
     $response = $this->sendRequest("GET", $url);
+    $judgments = Array();
     foreach((array) $response as $jsonjudgment){
       $judgments[] = new Judgment($this->request, $this->getId(), $jsonjudgment->unit_id, $jsonjudgment->id, $jsonjudgment);
     }
@@ -188,7 +190,7 @@ class Job extends Base implements CommonInterface
   }
 
   public function downloadJudgments($full = true){
-    if($this->getId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getId() . ".csv";
 

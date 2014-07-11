@@ -41,8 +41,8 @@ class Judgment extends Base implements CommonInterface
 
 
   private function read($limit = "", $page = ""){
-    if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json?";
     $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
@@ -53,9 +53,14 @@ class Judgment extends Base implements CommonInterface
   }
 
   public function create(){
-    if($this->getAttributes() === null){ return new CrowdFlowerException('judgment_attributes'); }
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getUnitId() === null){ return new CrowdFlowerException('unit_id'); }
+    /**
+     * It seems that creating a judgment does not work, even though it is in their API Docs.
+     */
+    throw new CrowdFlowerException('Create not allowed for Judgments.');
+
+    if($this->getAttributes() === null){ throw new CrowdFlowerException('judgment_attributes'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getUnitId() === null){ throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments.json";
 
@@ -70,9 +75,9 @@ class Judgment extends Base implements CommonInterface
   }
 
   public function update(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
-    if($this->getAttributes() === null){ return new CrowdFlowerException('judgment_attributes'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
+    if($this->getAttributes() === null){ throw new CrowdFlowerException('judgment_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 
@@ -82,8 +87,8 @@ class Judgment extends Base implements CommonInterface
   }
 
   public function delete(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ return new CrowdFlowerException('judgment_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 

@@ -38,35 +38,42 @@ try {
       );
 try {
   $response = $job->getUnit(0)->createJudgments($attributes);
-  //print_r($job);
-  //print_r($response);
+  print_r($job->getUnit(0)->judgments);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 
 
 // // get judgments for job
-// try {
-//   $response = $job->getJudgments();
-//   print_r($response);
-//   print_r($job);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+try {
+  $response = $job->getJudgments();
+  print_r($job->judgments);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
 
 // get judgments for unit
 try {
   $response = $job->getUnit(0)->getJudgments();
+  print_r($job->getUnit(0)->judgments);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+// download all judgments for job
+try {
+  $response = $job->downloadJudgments();
   print_r($response);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 
-// //download all judgments for job
-// try {
-//   $response = $job->downloadJudgments();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// update a judgment. Cannot do without a judgment.
+
+
+// delete a judgment. Cannot do without a judgment.
+
+// get a judgment's unit. Cannot do without a judgment.
+
+

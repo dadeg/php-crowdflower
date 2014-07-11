@@ -34,8 +34,8 @@ class Unit extends Base implements CommonInterface
 
 
   private function read(){
-    if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
@@ -47,8 +47,8 @@ class Unit extends Base implements CommonInterface
   }
 
   public function create(){
-    if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getAttributes() === null){ throw new CrowdFlowerException('unit_attributes'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units.json";
     $parameters = $this->serializeAttributes($this->getAttributes());
@@ -61,9 +61,9 @@ class Unit extends Base implements CommonInterface
   }
 
   public function update(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
-    if($this->getAttributes() === null){ return new CrowdFlowerException('unit_attributes'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
+    if($this->getAttributes() === null){ throw new CrowdFlowerException('unit_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
     $parameters = $this->serializeAttributes($this->getAttributes());
@@ -73,8 +73,8 @@ class Unit extends Base implements CommonInterface
   }
 
   public function delete(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
@@ -82,8 +82,8 @@ class Unit extends Base implements CommonInterface
   }
 
   public function cancel(){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ return new CrowdFlowerException('unit_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel.json";
 
@@ -92,7 +92,7 @@ class Unit extends Base implements CommonInterface
 
 
   public function split($on, $with = " "){
-    if($this->getJobId() === null){ return new CrowdFlowerException('job_id'); }
+    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/split.json";
     $parameters = "on=" . urlencode($on) . "&with=" . urlencode($with);
@@ -120,6 +120,7 @@ class Unit extends Base implements CommonInterface
   public function getJudgments(){
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments.json";
     $response = $this->sendRequest("GET", $url);
+    $judgments = Array();
     foreach((array) $response as $jsonjudgment){
       $judgments[] = new Judgment($this->request, $this->getJobId(), $this->getId(), $jsonjudgment->id, $jsonjudgment);
     }
