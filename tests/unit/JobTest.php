@@ -34,13 +34,13 @@ class JobTest extends CrowdFlowerTestCase
 
     public function testUpdate()
     {
-        $updateJson = file_get_contents(
+        $updateJobJson = file_get_contents(
             $this->getFixturePath() . DIRECTORY_SEPARATOR . 'updateJob.json'
         );
 
         $newTitle = 'New Title';
         $job = new Job(
-            $this->getMockedRequest($updateJob),
+            $this->getMockedRequest($updateJobJson),
             5091431,
             array('title' => 'Old Title')
         );
