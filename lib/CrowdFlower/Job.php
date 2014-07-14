@@ -47,15 +47,17 @@ class Job extends Base implements CommonInterface
 
     return $this;
   }
-
+// TODO : update doesn't seem to work. get HTML-based 502 error response.
   public function update()
   {
     if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
     if($this->getAttributes() === null){ throw new CrowdFlowerException('job_attributes'); }
 
     $url = "jobs/" . $this->getId() . ".json";
+
     $attributes = $this->serializeAttributes($this->getAttributes());
     $attributes = $this->sendRequest("PUT", $url, $attributes);
+    var_dump($attributes);
     $this->setAttributes($attributes);
 
     return $this;
@@ -67,7 +69,7 @@ class Job extends Base implements CommonInterface
 
     $response = $this->sendRequest("DELETE", "jobs/".$this->getId() . ".json");
 
-    return $response->message;
+    return true;
   }
 
 //TODO: add upload parameter and file handling

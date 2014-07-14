@@ -17,8 +17,16 @@ abstract class Base
     $result = $this->request->send($method, $url_modifier, $data);
     $result = json_decode($result);
 
-    if($result->error || $result->notice){
-      if($result->error->message || $result->notice->message){
+
+    if(isset($result->error) || isset($result->notice) || isset($result->errors)){
+      if(isset($result->errors)){
+        $message = "<ul>";
+        foreach($result->errors as $k => $v){
+          $message .= "<li>" . $v ."</li>";
+        }
+        $message .= "</ul>";
+
+      } elseif(isset($result->error->message) || isset($result->notice->message)){
         $message = $result->error->message ?: $result->notice->message;
       } else {
         $message = $result->error ?: $result->notice;
