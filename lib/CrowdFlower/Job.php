@@ -57,7 +57,6 @@ class Job extends Base implements CommonInterface
 
     $attributes = $this->serializeAttributes($this->getAttributes());
     $attributes = $this->sendRequest("PUT", $url, $attributes);
-    var_dump($attributes);
     $this->setAttributes($attributes);
 
     return $this;
