@@ -22,10 +22,12 @@ class Judgment extends Base implements CommonInterface
     "data"
   );
 
-  public function __construct(Request $request, $job_id, $unit_id, $id = null, $attributes = array()){
+  public function __construct(Request $request, $job_id, $unit_id = null, $id = null, $attributes = array()){
       $this->request = $request;
       $this->setJobId($job_id);
-      $this->setUnitId($unit_id);
+      if($unit_id !== null){
+        $this->setUnitId($unit_id);
+      }
       if($id !== null){
         $this->setId($id);
 

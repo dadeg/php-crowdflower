@@ -140,6 +140,8 @@ class Job extends Base implements CommonInterface
   }
 
   public function getUnits(){
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
+
     $url = "jobs/" . $this->getId() . "/units.json";
     $response = $this->sendRequest("GET", $url);
     $units = Array();
@@ -150,8 +152,13 @@ class Job extends Base implements CommonInterface
     return $this->units;
   }
 
-  public function getUnit($key){
-    return $this->units[$key];
+  public function getUnit($unit_id){
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
+
+    $unit = new Unit($this->request, $this->getId(), $unit_id);
+    $this->units[] = $unit;
+
+    return $unit;
   }
 
   public function createUnit($attributes){
@@ -201,6 +208,15 @@ class Job extends Base implements CommonInterface
     return $this->sendRequest("GET", $url);
   }
 
+  public function getJudgment($judgment_id){
+    if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
+
+
+    $judgment = new Judgment($this->request, $this->getId(), $judgment_id);
+    $this->judgments[] = $judgment;
+
+    return $judgment;
+  }
 
 
 

@@ -25,28 +25,28 @@ $crowd = new CrowdFlower\Account($apiKey);
 // print_r($job);
 
 //create a job with no attributes
+try {
+  $job = $crowd->createJob();
+  //print_r($job);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+// //copy the job
 // try {
-//   $job = $crowd->createJob();
-//   //print_r($job);
+//   $job2 = $job->copy();
+//   print_r($job2);
 // } catch (Exception $e) {
 //   echo 'Caught exception: ',  $e->getMessage(), "\n";
 // }
-// // //copy the job
-// // try {
-// //   $job2 = $job->copy();
-// //   print_r($job2);
-// // } catch (Exception $e) {
-// //   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// // }
-// //update job with some attributes
-// try {
-//   $job->setAttribute('title', 'test title for copied job');
-//   $job->setAttribute('instructions', 'test instructions');
-//   $job->update();
-//   //print_r($job);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+//update job with some attributes
+try {
+  $job->setAttribute('title', 'test title for copied job');
+  $job->setAttribute('instructions', 'test instructions');
+  $job->update();
+  //print_r($job);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 // // delete job2
 // try {
 //   $response = $job2->delete();
@@ -119,11 +119,11 @@ $crowd = new CrowdFlower\Account($apiKey);
 
 
 
-// get a single job that should return an error
-try {
-  $job = $crowd->getJob('517192');
-  print_r($job);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// // get a single job that should return an error
+// try {
+//   $job = $crowd->getJob('123');
+//   print_r($job);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
