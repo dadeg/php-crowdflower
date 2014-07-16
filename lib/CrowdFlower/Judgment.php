@@ -49,7 +49,11 @@ class Judgment extends Base implements CommonInterface
     $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
     $url .= $parameters;
 
-    return $this->sendRequest("GET", $url);
+    $attributes = $this->sendRequest("GET", $url);
+
+    $this->setAttributes($attributes);
+
+    return $this->getAttributes();
 
   }
 
@@ -78,11 +82,13 @@ class Judgment extends Base implements CommonInterface
   public function update(){
     if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('judgment_attributes'); }
+    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('judgment_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $parameters = $this->serializeAttributes($this->getAttributesChanged());
+
+    $this->resetAttributesChanged();
 
     return $this->sendRequest("PUT", $url, $parameters);
   }

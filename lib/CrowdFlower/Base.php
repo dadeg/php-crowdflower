@@ -6,6 +6,7 @@ abstract class Base
 {
 
   protected $attributes = array();
+  protected $attributesChanged = array();
   protected $object_type;
 
   /**
@@ -49,14 +50,17 @@ abstract class Base
   }
 
 
-  public function setAttribute($attribute, $value){
+  public function setAttribute($attribute, $value, $markChanged = 1){
     $this->attributes[$attribute] = $value;
+    if ($markChanged) {
+      $this->attributesChanged[$attribute] = $value;
+    }
     return true;
   }
 
-  public function setAttributes($data){
+  public function setAttributes($data, $markChanged = 1){
     foreach((array) $data as $attribute => $value){
-      $this->setAttribute($attribute, $value);
+      $this->setAttribute($attribute, $value, $markChanged);
     }
 
     return true;
@@ -68,6 +72,10 @@ abstract class Base
 
   public function getAttributes(){
     return $this->attributes;
+  }
+
+  public function getAttributesChanged(){
+    return $this->attributesChanged;
   }
 
   protected function serializeAttributes($parameters){
@@ -89,5 +97,10 @@ abstract class Base
       $parameters_str .= $this->object_type. "[" . urlencode($k) . "]=" . urlencode($v);
     }
     return $parameters_str;
+  }
+
+  public function resetAttributesChanged () {
+    $this->attributesChanged = array();
+    return true;
   }
 }

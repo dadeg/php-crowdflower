@@ -43,7 +43,7 @@ class Job extends Base implements CommonInterface
     $attributes = $this->serializeAttributes($attributes);
     $attributes = $this->sendRequest("POST", $url, $attributes);
 
-    $this->setAttributes($attributes);
+    $this->setAttributes($attributes, 0);
 
     return $this;
   }
@@ -51,13 +51,17 @@ class Job extends Base implements CommonInterface
   public function update()
   {
     if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('job_attributes'); }
+    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('job_attributes'); }
 
     $url = "jobs/" . $this->getId() . ".json";
 
-    $attributes = $this->serializeAttributes($this->getAttributes());
+    $attributes = $this->serializeAttributes($this->getAttributesChanged());
+
+    $this->resetAttributesChanged();
+
     $attributes = $this->sendRequest("PUT", $url, $attributes);
-    $this->setAttributes($attributes);
+    $this->setAttributes($attributes, 0);
+
 
     return $this;
   }
@@ -265,7 +269,7 @@ class Job extends Base implements CommonInterface
 
     $response = $this->sendRequest("GET", "jobs/".$this->getId() . ".json");
 
-    $this->setAttributes($response);
+    $this->setAttributes($response, 0);
 
     return $response;
 

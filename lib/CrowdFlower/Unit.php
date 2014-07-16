@@ -40,20 +40,20 @@ class Unit extends Base implements CommonInterface
 
     $response = $this->sendRequest("GET", $url);
 
-    $this->setAttributes($response);
+    $this->setAttributes($response, 0);
 
     return $response;
   }
 
   public function create(){
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('unit_attributes'); }
+    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('unit_attributes'); }
     if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units.json";
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $parameters = $this->serializeAttributes($this->getAttributesChanged());
     $attributes = $this->sendRequest("POST", $url, $parameters);
 
-    $this->setAttributes($attributes);
+    $this->setAttributes($attributes, 0);
 
     return $this;
 
@@ -62,11 +62,12 @@ class Unit extends Base implements CommonInterface
   public function update(){
     if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
     if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('unit_attributes'); }
+    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('unit_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $parameters = $this->serializeAttributes($this->getAttributesChanged());
 
+    $this->resetAttributesChanged();
 
     return $this->sendRequest("PUT", $url, $parameters);
   }

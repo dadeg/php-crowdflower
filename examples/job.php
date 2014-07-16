@@ -26,7 +26,7 @@ $crowd = new CrowdFlower\Account($apiKey);
 
 //create a job with no attributes
 try {
-  $job = $crowd->createJob();
+  $job = $crowd->getJob(521091);
   //print_r($job);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -40,7 +40,7 @@ try {
 // }
 //update job with some attributes
 try {
-  $job->setAttribute('title', 'test title for copied job');
+  $job->setAttribute('title', 'test title for job update');
   $job->setAttribute('instructions', 'test instructions');
   $job->update();
   //print_r($job);

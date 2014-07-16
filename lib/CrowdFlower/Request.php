@@ -21,6 +21,7 @@ class Request
      */
     public function send($method, $urlModifier, $data)
     {
+
         $url = $this->baseUrl . $urlModifier;
         if (stristr($url, "?")) {
            $url .= "&";
