@@ -136,9 +136,8 @@ class Unit extends Base implements CommonInterface
     return $this->attributes['job_id'];
   }
 
-
-
-
-
-
+  public function getId()
+  {
+    return $this->getAttribute['id'];
+  }
 }
