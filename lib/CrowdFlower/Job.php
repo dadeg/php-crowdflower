@@ -87,6 +87,19 @@ class Job extends Base implements CommonInterface
   public function copy($all_units = false, $gold = false){
     if($this->getId() === null){ throw new CrowdFlowerException('job_id'); }
 
+    //stringify true/false for their api. 1 and 0 does not work.
+    if($all_units){
+      $all_units = "true";
+    } else {
+      $all_unit = "false";
+    }
+    if($gold){
+      $gold = "true";
+    } else {
+      $gold = "false";
+    }
+
+
     $url = "jobs/" . $this->getId() . "/copy.json?";
     $parameters = "all_units=" . urlencode($all_units) . "&gold=" . urlencode($gold);
     $url .= $parameters;

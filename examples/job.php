@@ -25,28 +25,30 @@ $crowd = new CrowdFlower\Account($apiKey);
 // print_r($job);
 
 //create a job with no attributes
-try {
-  $job = $crowd->getJob(521091);
-  //print_r($job);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
-// //copy the job
 // try {
-//   $job2 = $job->copy();
-//   print_r($job2);
+//   $job = $crowd->getJob(521091);
+//   //print_r($job);
 // } catch (Exception $e) {
 //   echo 'Caught exception: ',  $e->getMessage(), "\n";
 // }
-//update job with some attributes
+//copy the job
 try {
-  $job->setAttribute('title', 'test title for job update');
-  $job->setAttribute('instructions', 'test instructions');
-  $job->update();
-  //print_r($job);
+
+  $basejob = $crowd->getJob('519075');
+  $job = $basejob->copy(false, true);
+
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
+//update job with some attributes
+// try {
+//   $job->setAttribute('title', 'test title for job update');
+//   $job->setAttribute('instructions', 'test instructions');
+//   $job->update();
+//   //print_r($job);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 // // delete job2
 // try {
 //   $response = $job2->delete();
