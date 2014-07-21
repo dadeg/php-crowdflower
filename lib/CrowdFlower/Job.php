@@ -89,9 +89,9 @@ class Job extends Base implements CommonInterface
 
     $url = "jobs/" . $this->getId() . "/copy.json?";
     $parameters = "all_units=" . urlencode($all_units) . "&gold=" . urlencode($gold);
-    $url .= $parameters;
 
-    $response = $this->sendRequest("POST", $url);
+
+    $response = $this->sendRequest("POST", $url, $parameters);
 
     $job2 = new Job($this->request, $response->id, $response);
 
