@@ -35,7 +35,7 @@ $crowd = new CrowdFlower\Account($apiKey);
 try {
 
   $basejob = $crowd->getJob('519075');
-  $job = $basejob->copy(false, true);
+  $job = $basejob->copy();
 
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";

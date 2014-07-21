@@ -30,7 +30,7 @@ class Job extends Base implements CommonInterface
       $this->setId($id);
 
       if ($attributes) {
-        $this->setAttributes($attributes);
+        $this->setAttributes($attributes, 0);
       } else {
         $this->read();
       }
