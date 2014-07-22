@@ -22,7 +22,7 @@ class Account extends Base
 
   public function getJobs($page = 1)
   {
-    if(!is_int($page)) { throw new InvalidArgumentException('getJobs function only accepts integers. Input was: ' . $page);
+    if(!is_int($page)) { throw new InvalidArgumentException('getJobs function only accepts integers. Input was: ' . $page); }
 
     $url = "jobs.json/?page=" . $page;
     $response = $this->sendRequest("GET", $url);

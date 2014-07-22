@@ -36,89 +36,90 @@ try {
 
   $basejob = $crowd->getJob('519075');
   $job = $basejob->copy();
+  $job2 = $basejob->copy();
 
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 //update job with some attributes
-// try {
-//   $job->setAttribute('title', 'test title for job update');
-//   $job->setAttribute('instructions', 'test instructions');
-//   $job->update();
-//   //print_r($job);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-// // delete job2
-// try {
-//   $response = $job2->delete();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-// // pause job
-// try {
-//   $response = $job->pause();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-// // resume job
-// try {
-//   $response = $job->resume();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+try {
+  $job2->setAttribute('title', 'test title for job update');
+  $job2->setAttribute('instructions', 'test instructions');
+  $job2->update();
+  print_r($job2);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+// delete job2
+try {
+  $response = $job2->delete();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+// pause job
+try {
+  $response = $job->pause();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+// resume job
+try {
+  $response = $job->resume();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-// // cancel job
-// try {
-//   $response = $job->cancel();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-// // status job
-// try {
-//   $response = $job->status();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// cancel job
+try {
+  $response = $job->cancel();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+// status job
+try {
+  $response = $job->status();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-// // reset all golds for job
-// try {
-//   $response = $job->resetGold();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// reset all golds for job
+try {
+  $response = $job->resetGold();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-// // set gold for job
-// try {
-//   $response = $job->setGold(null);
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// set gold for job
+try {
+  $response = $job->setGold(null);
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-// // set channels for job
-// try {
-//   $response = $job->setChannels('on_demand');
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// set channels for job
+try {
+  $response = $job->setChannels('on_demand');
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-// // get channels for job
-// try {
-//   $response = $job->getChannels();
-//   print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// get channels for job
+try {
+  $response = $job->getChannels();
+  print_r($response);
+} catch (Exception $e) {
+  echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
 
-
+$job->delete();
 
 
 // // get a single job that should return an error

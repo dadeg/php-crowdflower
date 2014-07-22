@@ -46,8 +46,8 @@ class Judgment extends Base
 
   private function read($limit = 0, $page = 0)
   {
-    if(!is_int($limit)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$limit);
-    if(!is_int($page)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$page);
+    if(!is_int($limit)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$limit); }
+    if(!is_int($page)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$page); }
     if ($this->getId() === null) { throw new Exception('judgment_id'); }
     if ($this->getJobId() === null) { throw new Exception('job_id'); }
 

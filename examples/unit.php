@@ -40,14 +40,14 @@ try {
 
 //update one unit
 
-try {
-  $job->getUnit(0)->setAttribute("data", Array('column1' => 'name updated', 'column2' => 'url updated'));
-  $job->getUnit(0)->update();
-  print_r($job->getUnit(0));
-  //print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// try {
+//   $job->getUnit(0)->setAttribute("data", Array('column1' => 'name updated', 'column2' => 'url updated'));
+//   $job->getUnit(0)->update();
+//   print_r($job->getUnit(0));
+//   //print_r($response);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
 // get status of all units
 try {
@@ -60,7 +60,8 @@ try {
 
 // cancel a unit
 try {
-  $response = $job->getUnit(0)->cancel();
+  $units = $job->getUnits;
+  $response = $units[0]->cancel();
   print_r($response);
   //print_r($response);
 } catch (Exception $e) {
@@ -69,7 +70,8 @@ try {
 
 // delete a unit
 try {
-  $response = $job->getUnit(0)->delete();
+  $units = $job->getUnits;
+  $response = $units[0]->delete();
   print_r($response);
   //print_r($response);
 } catch (Exception $e) {
