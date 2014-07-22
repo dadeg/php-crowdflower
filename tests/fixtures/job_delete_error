@@ -1,0 +1,22 @@
+
+-
+    request:
+        method: GET
+        url: 'https://api.crowdflower.com/v1/jobs/99999999999.json?key=StQNgqJETkBvyvLU-iiK'
+        headers:
+            Host: api.crowdflower.com
+            Content-Length: '0'
+    response:
+        status: 404
+        headers:
+            Server: Tengine/1.5.2
+            Date: 'Tue, 22 Jul 2014 13:15:18 GMT'
+            Content-Type: 'application/json; charset=utf-8'
+            Transfer-Encoding: chunked
+            Connection: keep-alive
+            Status: '404 Not Found'
+            Access-Control-Allow-Origin: 'https://make.crowdflower.com'
+            Access-Control-Allow-Methods: 'PUT, GET, POST, DELETE, OPTIONS'
+            Access-Control-Allow-Credentials: 'true'
+            Set-Cookie: '_session_id=BAh7B0kiHmF1dGhlbnRpY2F0aW9uX3N0cmF0ZWdpZXMGOgZFRjBJIgl1c2Vy%250ABjsARkkiD1VzZXIjMjMyNzgGOwBG--d90c55f22b0d5415f0cbe9b126497d563a46e175; path=/;'
+        body: '{"error": {"message":"We couldn''t find what you were looking for."}}'
