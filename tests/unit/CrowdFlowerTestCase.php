@@ -1,7 +1,5 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/vendor/autoload.php';
-
 abstract class CrowdFlowerTestCase extends \PHPUnit_Framework_TestCase
 {
     protected function getFixturePath()
