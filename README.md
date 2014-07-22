@@ -21,7 +21,8 @@
 
 ## Getting Started
 ```php
-$crowd = new CrowdFlower($apiKey);
+use CrowdFlower\Account;
+$crowd = new Account($apiKey);
 ```
 
 ## Getting existing Jobs
@@ -42,14 +43,17 @@ $job = $crowd->createJob();
 $job = $crowd->createJob(array(
     "title" => "A brand new job"
 ));
+
+// jobs can also be created from a copy of an existing job
+$jobCopy = $crowd->getJob($jobId)->copy();
 ```
 
 ## Adding Units
 ```php
-// create units from a file
+// create units from a file (This feature is not yet available)
 $units = $job->createUnits('crowdflower.csv');
 
-// create units from json
+// create units from json (This feature is not yet available)
 $units = $job->createUnits('[{"sky_color": "blue"}, {"grass_color": "green"}]');
 
 // create units from array
@@ -61,7 +65,7 @@ $units = $job->createUnits(array(
 // units can also be created individually
 $unit = $job->createUnit(array('sky_color' => 'blue'));
 
-// or they can be created with a job
+// or they can be created with a job (This feature may not be stable)
 $job = $crowd->createJob(array(
     "units" => '[{"sky_color": "blue"}, {"grass_color": "green"}]'
 ));
