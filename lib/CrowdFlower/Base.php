@@ -13,21 +13,21 @@ abstract class Base
    * makes a connection and sends a request to the Crowdflower API
    * @return [type] [description]
    */
-  protected function sendRequest($method, $url_modifier, $data=null)
+  protected function sendRequest($method, $url_modifier, $data = null)
   {
     $result = $this->request->send($method, $url_modifier, $data);
     $result = json_decode($result);
 
 
-    if(isset($result->error) || isset($result->notice) || isset($result->errors)){
-      if(isset($result->errors)){
+    if (isset($result->error) || isset($result->notice) || isset($result->errors)) {
+      if (isset($result->errors)) {
         $message = "<ul>";
-        foreach($result->errors as $k => $v){
+        foreach ($result->errors as $k => $v) {
           $message .= "<li>" . $v ."</li>";
         }
         $message .= "</ul>";
 
-      } elseif(isset($result->error->message) || isset($result->notice->message)){
+      } elseif (isset($result->error->message) || isset($result->notice->message)) {
         $message = $result->error->message ?: $result->notice->message;
       } else {
         $message = $result->error ?: $result->notice;
@@ -40,17 +40,20 @@ abstract class Base
   }
 
 
-  public function getId(){
-    return $this->attributes['id'];
+  public function getId()
+  {
+    return $this->getAttribute('id');
   }
 
-  public function setId($id){
-    $this->attributes['id'] = $id;
+  public function setId($id)
+  {
+    $this->setAttribute('id', $id, 0);
     return true;
   }
 
 
-  public function setAttribute($attribute, $value, $markChanged = 1){
+  public function setAttribute($attribute, $value, $markChanged = 1)
+  {
     $this->attributes[$attribute] = $value;
     if ($markChanged) {
       $this->attributesChanged[$attribute] = $value;
@@ -58,7 +61,8 @@ abstract class Base
     return true;
   }
 
-  public function setAttributes($data, $markChanged = 1){
+  public function setAttributes($data, $markChanged = 1)
+  {
     foreach((array) $data as $attribute => $value){
       $this->setAttribute($attribute, $value, $markChanged);
     }
@@ -66,31 +70,35 @@ abstract class Base
     return true;
   }
 
-  public function getAttribute($attribute){
+  public function getAttribute($attribute)
+  {
     return $this->attributes[$attribute];
   }
 
-  public function getAttributes(){
+  public function getAttributes()
+  {
     return $this->attributes;
   }
 
-  public function getAttributesChanged(){
+  public function getAttributesChanged()
+  {
     return $this->attributesChanged;
   }
 
-  protected function serializeAttributes($parameters){
+  protected function serializeAttributes($parameters)
+  {
     $parameters_str = "";
     $i = 0;
-    foreach($parameters as $k => $v){
-      if(in_array($k, $this->read_only)){
+    foreach ($parameters as $k => $v) {
+      if (in_array($k, $this->read_only)) {
         continue;
       }
-      if($i++ > 0){
+      if ($i++ > 0) {
         $parameters_str .= "&";
       }
 
       //convert value to json if it is an object or array.
-      if(is_array($v) || is_object($v)){
+      if (is_array($v) || is_object($v)) {
         $v = json_encode($v);
       }
 
@@ -99,7 +107,8 @@ abstract class Base
     return $parameters_str;
   }
 
-  public function resetAttributesChanged () {
+  public function resetAttributesChanged ()
+  {
     $this->attributesChanged = array();
     return true;
   }

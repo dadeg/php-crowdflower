@@ -22,17 +22,20 @@ class Judgment extends Base implements CommonInterface
     "data"
   );
 
-  public function __construct(Request $request, $job_id, $unit_id = null, $id = null, $attributes = array()){
+  public function __construct(Request $request, $job_id, $unit_id = null, $id = null, $attributes = array())
+  {
       $this->request = $request;
       $this->setJobId($job_id);
-      if($unit_id !== null){
+
+      if ($unit_id !== null) {
         $this->setUnitId($unit_id);
       }
-      if($id !== null){
+
+      if ($id !== null) {
         $this->setId($id);
 
         if ($attributes) {
-          $this->setAttributes($attributes);
+          $this->setAttributes($attributes, 0);
         } else {
           $this->read();
         }
@@ -41,9 +44,10 @@ class Judgment extends Base implements CommonInterface
 
 
 
-  private function read($limit = "", $page = ""){
-    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+  private function read($limit = "", $page = "")
+  {
+    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json?";
     $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
@@ -51,38 +55,39 @@ class Judgment extends Base implements CommonInterface
 
     $attributes = $this->sendRequest("GET", $url);
 
-    $this->setAttributes($attributes);
+    $this->setAttributes($attributes, 0);
 
     return $this->getAttributes();
 
   }
 
-  public function create(){
+  public function create($attributes = array())
+  {
     /**
      * It seems that creating a judgment does not work, even though it is in their API Docs.
      */
     throw new CrowdFlowerException('Create not allowed for Judgments.');
 
-    if($this->getAttributes() === null){ throw new CrowdFlowerException('judgment_attributes'); }
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getUnitId() === null){ throw new CrowdFlowerException('unit_id'); }
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getUnitId() === null) { throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments.json";
 
-    $parameters = $this->serializeAttributes($this->getAttributes());
+    $parameters = $this->serializeAttributes($attributes);
 
 
     $response = $this->sendRequest("POST", $url, $parameters);
 
-    $this->setAttributes($response);
+    $this->setAttributes($response, 0);
 
     return $this;
   }
 
-  public function update(){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
-    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('judgment_attributes'); }
+  public function update()
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
+    if ($this->getAttributesChanged() === null) { throw new CrowdFlowerException('judgment_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 
@@ -93,9 +98,10 @@ class Judgment extends Base implements CommonInterface
     return $this->sendRequest("PUT", $url, $parameters);
   }
 
-  public function delete(){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ throw new CrowdFlowerException('judgment_id'); }
+  public function delete()
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 
@@ -104,32 +110,31 @@ class Judgment extends Base implements CommonInterface
 
 
 
-  public function getUnit(){
+  public function getUnit()
+  {
     $unit = new Unit($this->request, $this->getJobId(), $this->getUnitId());
     return $unit;
   }
 
-  private function setJobId($job_id){
-    $this->attributes['job_id'] = $job_id;
+  private function setJobId($job_id)
+  {
+    $this->setAttribute('job_id', $job_id, 0);
     return true;
   }
 
-  public function getJobId(){
-    return $this->attributes['job_id'];
+  public function getJobId()
+  {
+    return $this->getAttribute('job_id');
   }
 
-  private function setUnitId($unit_id){
-    $this->attributes['unit_id'] = $unit_id;
+  private function setUnitId($unit_id)
+  {
+    $this->setAttribute('unit_id', $unit_id, 0);
     return true;
   }
 
-  public function getUnitId(){
-    return $this->attributes['unit_id'];
+  public function getUnitId()
+  {
+    return $this->getAttribute('unit_id');
   }
-
-
-
-
-
-
 }

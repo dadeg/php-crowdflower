@@ -20,7 +20,8 @@ class Account extends Base
     }
   }
 
-  public function getJobs($page = 1){
+  public function getJobs($page = 1)
+  {
     $url = "jobs.json/?page=" . urlencode($page);
     $response = $this->sendRequest("GET", $url);
 
@@ -31,11 +32,13 @@ class Account extends Base
     return $jobs;
   }
 
-  public function getJob($id){
+  public function getJob($id)
+  {
     return new Job($this->request, $id);
   }
 
-  public function createJob($attributes = array()){
+  public function createJob($attributes = array())
+  {
     $job = new Job($this->request);
     $job->create($attributes);
 

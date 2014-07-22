@@ -15,7 +15,8 @@ class Unit extends Base implements CommonInterface
     "updated_at"
   );
 
-  public function __construct(Request $request, $job_id, $id = null, $attributes = array()){
+  public function __construct(Request $request, $job_id, $id = null, $attributes = array())
+  {
     $this->request = $request;
     $this->setJobId($job_id);
 
@@ -23,7 +24,7 @@ class Unit extends Base implements CommonInterface
       $this->setId($id);
 
       if ($attributes) {
-        $this->setAttributes($attributes);
+        $this->setAttributes($attributes, 0);
       } else {
         $this->read();
       }
@@ -32,9 +33,10 @@ class Unit extends Base implements CommonInterface
 
 
 
-  private function read(){
-    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+  private function read()
+  {
+    if ($this->getId() === null) { throw new CrowdFlowerException('unit_id'); }
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
@@ -45,12 +47,12 @@ class Unit extends Base implements CommonInterface
     return $response;
   }
 
-  public function create(){
-    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('unit_attributes'); }
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+  public function create($attributes = array())
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units.json";
-    $parameters = $this->serializeAttributes($this->getAttributesChanged());
+    $parameters = $this->serializeAttributes($attributes);
     $attributes = $this->sendRequest("POST", $url, $parameters);
 
     $this->setAttributes($attributes, 0);
@@ -59,10 +61,11 @@ class Unit extends Base implements CommonInterface
 
   }
 
-  public function update(){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
-    if($this->getAttributesChanged() === null){ throw new CrowdFlowerException('unit_attributes'); }
+  public function update()
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new CrowdFlowerException('unit_id'); }
+    if ($this->getAttributesChanged() === null) { throw new CrowdFlowerException('unit_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
     $parameters = $this->serializeAttributes($this->getAttributesChanged());
@@ -72,18 +75,20 @@ class Unit extends Base implements CommonInterface
     return $this->sendRequest("PUT", $url, $parameters);
   }
 
-  public function delete(){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
+  public function delete()
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . ".json";
 
     return $this->sendRequest("DELETE", $url);
   }
 
-  public function cancel(){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
-    if($this->getId() === null){ throw new CrowdFlowerException('unit_id'); }
+  public function cancel()
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new CrowdFlowerException('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/cancel.json";
 
@@ -91,8 +96,9 @@ class Unit extends Base implements CommonInterface
   }
 
 
-  public function split($on, $with = " "){
-    if($this->getJobId() === null){ throw new CrowdFlowerException('job_id'); }
+  public function split($on, $with = " ")
+  {
+    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/units/split.json";
     $parameters = "on=" . urlencode($on) . "&with=" . urlencode($with);
@@ -101,15 +107,15 @@ class Unit extends Base implements CommonInterface
     return $this->sendRequest("PUT", $url, $parameters);
   }
 
-  public function createJudgment($attributes){
+  public function createJudgment($attributes = array())
+  {
     $judgment = new Judgment($this->request, $this->getJobId(), $this->getId());
-    $judgment->setAttributes($attributes);
-    $judgment->create();
-    $this->judgments[] = $judgment;
+    $judgment->create($attributes);
     return $judgment;
   }
 
-  public function createJudgments($attributes_array){
+  public function createJudgments($attributes_array)
+  {
     foreach($attributes_array as $k => $attributes){
       $judgments[] = $this->createJudgment($attributes);
     }
@@ -117,28 +123,26 @@ class Unit extends Base implements CommonInterface
   }
 
 
-  public function getJudgments(){
+  public function getJudgments()
+  {
     $url = "jobs/" . $this->getJobId() . "/units/" . $this->getId() . "/judgments.json";
     $response = $this->sendRequest("GET", $url);
     $judgments = Array();
-    foreach((array) $response as $jsonjudgment){
-      $judgments[] = new Judgment($this->request, $this->getJobId(), $this->getId(), $jsonjudgment->id, $jsonjudgment);
+    foreach ((array) $response as $jsonjudgment) {
+      $this->judgments[] = new Judgment($this->request, $this->getJobId(), $this->getId(), $jsonjudgment->id, $jsonjudgment);
     }
-    $this->judgments = $judgments;
+
     return $this->judgments;
   }
 
-  private function setJobId($job_id){
+  private function setJobId($job_id)
+  {
     $this->attributes['job_id'] = $job_id;
     return true;
   }
 
-  public function getJobId(){
-    return $this->attributes['job_id'];
-  }
-
-  public function getId()
+  public function getJobId()
   {
-    return $this->getAttribute['id'];
+    return $this->attributes['job_id'];
   }
 }
