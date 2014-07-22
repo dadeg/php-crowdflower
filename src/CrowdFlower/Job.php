@@ -2,14 +2,14 @@
 
 namespace CrowdFlower;
 
-class Job extends Base implements CommonInterface
+class Job extends Base
 {
-  protected $object_type = 'job';
+  protected $objectType = 'job';
   protected $units = array();
   protected $judgments = array();
   protected $channels = array();
 
-  protected $read_only = array(
+  protected $readOnly = array(
     "completed",
     "completed_at",
     "created_at",
@@ -50,8 +50,8 @@ class Job extends Base implements CommonInterface
 
   public function update()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
-    if ($this->getAttributesChanged() === null) { throw new CrowdFlowerException('job_attributes'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
+    if ($this->getAttributesChanged() === null) { throw new Exception('job_attributes'); }
 
     $url = "jobs/" . $this->getId() . ".json";
 
@@ -67,7 +67,7 @@ class Job extends Base implements CommonInterface
 
   public function delete()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $response = $this->sendRequest("DELETE", "jobs/".$this->getId() . ".json");
 
@@ -83,14 +83,14 @@ class Job extends Base implements CommonInterface
     return $this->sendRequest("PUT", $url, $data);
   }
 
-  public function copy($all_units = false, $gold = false){
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+  public function copy($allUnits = false, $gold = false){
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     //stringify true/false for their api. 1 and 0 does not work.
-    if ($all_units) {
-      $all_units = "true";
+    if ($allUnits) {
+      $allUnits = "true";
     } else {
-      $all_unit = "false";
+      $allUnits = "false";
     }
     if ($gold) {
       $gold = "true";
@@ -100,7 +100,7 @@ class Job extends Base implements CommonInterface
 
 
     $url = "jobs/" . $this->getId() . "/copy.json?";
-    $parameters = "all_units=" . urlencode($all_units) . "&gold=" . urlencode($gold);
+    $parameters = "all_units=" . urlencode($allUnits) . "&gold=" . urlencode($gold);
     $url .= $parameters;
 
     // API docs say to POST this, but their curl examples show a GET. both work.
@@ -113,35 +113,35 @@ class Job extends Base implements CommonInterface
 
   public function pause()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     return $this->sendRequest("PUT", "jobs/".$this->getId()."/pause.json");
   }
 
   public function resume()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     return $this->sendRequest("PUT", "jobs/".$this->getId()."/resume.json");
   }
 
   public function cancel()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     return $this->sendRequest("PUT", "jobs/".$this->getId()."/cancel.json");
   }
 
   public function status()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     return $this->sendRequest("GET", "jobs/".$this->getId()."/ping.json");
   }
 
   public function resetGold()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
     $url = "jobs/".$this->getId()."/gold.json?";
     $parameters = "reset=true";
     $url .= $parameters;
@@ -150,7 +150,7 @@ class Job extends Base implements CommonInterface
 
   public function setGold($check, $with = false)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/gold.json?";
     $parameters = "convert_units=true&check=" . urlencode($check);
@@ -164,7 +164,7 @@ class Job extends Base implements CommonInterface
 
   public function getUnits()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/units.json";
 
@@ -175,11 +175,11 @@ class Job extends Base implements CommonInterface
     return $this->units;
   }
 
-  public function getUnit($unit_id)
+  public function getUnit($unitId)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
-    $unit = new Unit($this->request, $this->getId(), $unit_id);
+    $unit = new Unit($this->request, $this->getId(), $unitId);
 
     return $unit;
   }
@@ -191,9 +191,9 @@ class Job extends Base implements CommonInterface
     return $unit;
   }
 
-  public function createUnits($attributes_array)
+  public function createUnits($attributesArray)
   {
-    foreach ($attributes_array as $k => $attributes) {
+    foreach ($attributesArray as $k => $attributes) {
       $units[] = $this->createUnit($attributes);
     }
     return $units;
@@ -201,7 +201,7 @@ class Job extends Base implements CommonInterface
 
   public function unitsStatus()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $url = "jobs/" . $this->getId() . "/units/ping.json";
 
@@ -226,25 +226,25 @@ class Job extends Base implements CommonInterface
 
   public function downloadJudgments($full = true)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $url = "jobs/" . $this->getId() . ".csv";
 
     return $this->sendRequest("GET", $url);
   }
 
-  public function getJudgment($judgment_id)
+  public function getJudgment($judgmentId)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
-    $judgment = new Judgment($this->request, $this->getId(), $judgment_id);
+    $judgment = new Judgment($this->request, $this->getId(), $judgmentId);
 
     return $judgment;
   }
 
   public function getChannels()
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $this->channels = $this->sendRequest("GET", "jobs/".$this->getId()."/channels.json");
 
@@ -253,26 +253,26 @@ class Job extends Base implements CommonInterface
 
   public function setChannels($data)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+    if ($this->getId() === null) { throw new Exception('job_id'); }
     if (is_string($data)) {
-      $parameters_str = 'channels[]=' . urlencode($data);
+      $parametersStr = 'channels[]=' . urlencode($data);
     } elseif (is_array($data)) {
-      $parameters_str = "";
+      $parametersStr = "";
       $i = 0;
       foreach($parameters as $k => $v){
         if($i++ > 0){
-          $parameters_str .= "&";
+          $parametersStr .= "&";
         }
         //convert value to json if it is an object or array.
         if(is_array($v) || is_object($v)){
           $v = json_encode($v);
         }
 
-        $parameters_str .= "channels[]=" . urlencode($v);
+        $parametersStr .= "channels[]=" . urlencode($v);
       }
     }
 
-    $this->sendRequest("PUT", "jobs/".$this->getId()."/channels.json", $parameters_str);
+    $this->sendRequest("PUT", "jobs/".$this->getId()."/channels.json", $parametersStr);
 
     $this->channels = $data;
 
@@ -281,8 +281,9 @@ class Job extends Base implements CommonInterface
 
 
 
-  private function read(){
-    if ($this->getId() === null) { throw new CrowdFlowerException('job_id'); }
+  private function read()
+  {
+    if ($this->getId() === null) { throw new Exception('job_id'); }
 
     $response = $this->sendRequest("GET", "jobs/".$this->getId() . ".json");
 

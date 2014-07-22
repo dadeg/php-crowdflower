@@ -7,25 +7,25 @@ abstract class Base
 
   protected $attributes = array();
   protected $attributesChanged = array();
-  protected $object_type;
+  protected $objectType;
 
   /**
    * makes a connection and sends a request to the Crowdflower API
    * @return [type] [description]
    */
-  protected function sendRequest($method, $url_modifier, $data = null)
+  protected function sendRequest($method, $urlModifier, $data = null)
   {
-    $result = $this->request->send($method, $url_modifier, $data);
+    $result = $this->request->send($method, $urlModifier, $data);
     $result = json_decode($result);
 
 
     if (isset($result->error) || isset($result->notice) || isset($result->errors)) {
       if (isset($result->errors)) {
-        $message = "<ul>";
+        $message = "";
         foreach ($result->errors as $k => $v) {
-          $message .= "<li>" . $v ."</li>";
+          $message .= $v . ". ";
         }
-        $message .= "</ul>";
+
 
       } elseif (isset($result->error->message) || isset($result->notice->message)) {
         $message = $result->error->message ?: $result->notice->message;
@@ -33,7 +33,7 @@ abstract class Base
         $message = $result->error ?: $result->notice;
       }
 
-      throw new CrowdFlowerException($message);
+      throw new Exception($message);
     }
 
     return $result;
@@ -87,14 +87,14 @@ abstract class Base
 
   protected function serializeAttributes($parameters)
   {
-    $parameters_str = "";
+    $parametersStr = "";
     $i = 0;
     foreach ($parameters as $k => $v) {
-      if (in_array($k, $this->read_only)) {
+      if (in_array($k, $this->readOnly)) {
         continue;
       }
       if ($i++ > 0) {
-        $parameters_str .= "&";
+        $parametersStr .= "&";
       }
 
       //convert value to json if it is an object or array.
@@ -102,9 +102,9 @@ abstract class Base
         $v = json_encode($v);
       }
 
-      $parameters_str .= $this->object_type. "[" . urlencode($k) . "]=" . urlencode($v);
+      $parametersStr .= $this->objectType. "[" . urlencode($k) . "]=" . urlencode($v);
     }
-    return $parameters_str;
+    return $parametersStr;
   }
 
   public function resetAttributesChanged ()

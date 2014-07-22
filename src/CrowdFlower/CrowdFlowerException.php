@@ -7,7 +7,7 @@ namespace CrowdFlower;
  * TODO: may want to make sure we are passing 300, 400 and 500 level response
  *       codes as the second argument to the constructor
  */
-class CrowdFlowerException extends \Exception
+class Exception extends \Exception
 {
   public function __construct($message, $code = 0, Exception $previous = null) {
       // premade messages

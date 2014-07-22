@@ -19,7 +19,7 @@ class Request
      * @param array $data request payload
      * @return string JSON
      */
-    public function send($method, $urlModifier, $data)
+    public function send($method, $urlModifier, $data = null)
     {
 
         $url = $this->baseUrl . $urlModifier;

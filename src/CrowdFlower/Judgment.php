@@ -5,10 +5,10 @@ namespace CrowdFlower;
 /**
  *
  */
-class Judgment extends Base implements CommonInterface
+class Judgment extends Base
 {
-  protected $object_type = 'judgment';
-  protected $read_only = Array(
+  protected $objectType = 'judgment';
+  protected $readOnly = Array(
     "started_at",
     "created_at",
     "job_id",
@@ -22,13 +22,13 @@ class Judgment extends Base implements CommonInterface
     "data"
   );
 
-  public function __construct(Request $request, $job_id, $unit_id = null, $id = null, $attributes = array())
+  public function __construct(Request $request, $jobId, $unitId = null, $id = null, $attributes = array())
   {
       $this->request = $request;
-      $this->setJobId($job_id);
+      $this->setJobId($jobId);
 
       if ($unit_id !== null) {
-        $this->setUnitId($unit_id);
+        $this->setUnitId($unitId);
       }
 
       if ($id !== null) {
@@ -44,13 +44,15 @@ class Judgment extends Base implements CommonInterface
 
 
 
-  private function read($limit = "", $page = "")
+  private function read($limit = 0, $page = 0)
   {
-    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
-    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
+    if(!is_int($limit)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$limit);
+    if(!is_int($page)) { throw new InvalidArgumentException('Read function only accepts integers. Input was: '.$page);
+    if ($this->getId() === null) { throw new Exception('judgment_id'); }
+    if ($this->getJobId() === null) { throw new Exception('job_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json?";
-    $parameters = "limit=" . urlencode($limit) . "&page=" . urlencode($page);
+    $parameters = "limit=" . $limit . "&page=" . $page;
     $url .= $parameters;
 
     $attributes = $this->sendRequest("GET", $url);
@@ -66,10 +68,10 @@ class Judgment extends Base implements CommonInterface
     /**
      * It seems that creating a judgment does not work, even though it is in their API Docs.
      */
-    throw new CrowdFlowerException('Create not allowed for Judgments.');
+    throw new Exception('Create not allowed for Judgments.');
 
-    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
-    if ($this->getUnitId() === null) { throw new CrowdFlowerException('unit_id'); }
+    if ($this->getJobId() === null) { throw new Exception('job_id'); }
+    if ($this->getUnitId() === null) { throw new Exception('unit_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments.json";
 
@@ -85,9 +87,9 @@ class Judgment extends Base implements CommonInterface
 
   public function update()
   {
-    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
-    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
-    if ($this->getAttributesChanged() === null) { throw new CrowdFlowerException('judgment_attributes'); }
+    if ($this->getJobId() === null) { throw new Exception('job_id'); }
+    if ($this->getId() === null) { throw new Exception('judgment_id'); }
+    if ($this->getAttributesChanged() === null) { throw new Exception('judgment_attributes'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 
@@ -100,8 +102,8 @@ class Judgment extends Base implements CommonInterface
 
   public function delete()
   {
-    if ($this->getJobId() === null) { throw new CrowdFlowerException('job_id'); }
-    if ($this->getId() === null) { throw new CrowdFlowerException('judgment_id'); }
+    if ($this->getJobId() === null) { throw new Exception('job_id'); }
+    if ($this->getId() === null) { throw new Exception('judgment_id'); }
 
     $url = "jobs/" . $this->getJobId() . "/judgments/" . $this->getId() . ".json";
 

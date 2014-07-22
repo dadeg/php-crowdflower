@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CrowdFlower\\": "lib/CrowdFlower/"
+            "CrowdFlower\\": "src/CrowdFlower/"
         }
     }
 }

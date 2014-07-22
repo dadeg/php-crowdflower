@@ -14,7 +14,7 @@ class Account extends Base
     } else if ($param instanceof Request) {
       $this->request = $param;
     } else {
-      throw new CrowdFlowerException(
+      throw new Exception(
         "Constructor argument must be API key or instance of \CrowdFlower\Request"
       );
     }
@@ -22,7 +22,9 @@ class Account extends Base
 
   public function getJobs($page = 1)
   {
-    $url = "jobs.json/?page=" . urlencode($page);
+    if(!is_int($page)) { throw new InvalidArgumentException('getJobs function only accepts integers. Input was: ' . $page);
+
+    $url = "jobs.json/?page=" . $page;
     $response = $this->sendRequest("GET", $url);
 
     foreach ($response as $jsonjob) {
