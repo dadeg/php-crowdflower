@@ -37,8 +37,9 @@ try {
         Array("country" => "Canada")
       );
 try {
-  $response = $job->getUnit(0)->createJudgments($attributes);
-  print_r($job->getUnit(0)->judgments);
+  $units = $job->getUnits();
+  $units[0]->createJudgments($attributes);
+  print_r($units[0]->judgments);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
@@ -47,7 +48,7 @@ try {
 // // get judgments for job
 try {
   $response = $job->getJudgments();
-  print_r($job->judgments);
+  print_r($response);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
@@ -55,8 +56,9 @@ try {
 
 // get judgments for unit
 try {
-  $response = $job->getUnit(0)->getJudgments();
-  print_r($job->getUnit(0)->judgments);
+  $units = $job->getUnits();
+  $units[0]->getJudgments();
+  print_r($units[0]->judgments);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }

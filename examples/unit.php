@@ -58,24 +58,26 @@ try {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 
-// cancel a unit
-try {
-  $units = $job->getUnits;
-  $response = $units[0]->cancel();
-  print_r($response);
-  //print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// TODO: cancel and delete do not work because the unit does not get sent back from Job::getUnits() with an ID??
+// // cancel a unit
+// try {
+//   $units = $job->getUnits();
+//   print_r($units);
+//   $response = $units[0]->cancel();
+//   print_r($response);
+//   //print_r($response);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
-// delete a unit
-try {
-  $units = $job->getUnits;
-  $response = $units[0]->delete();
-  print_r($response);
-  //print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// // delete a unit
+// try {
+//   $units = $job->getUnits();
+//   $response = $units[0]->delete();
+//   print_r($response);
+//   //print_r($response);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
 
