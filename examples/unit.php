@@ -23,20 +23,20 @@ try {
       );
 try {
   $response = $job->createUnits($attributes);
-  //print_r($job);
-  //print_r($response);
+  print_r($job);
+  print_r($response);
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 
 // get units for job
 
-try {
-  $response = $job->getUnits();
-  //print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// try {
+//   $response = $job->getUnits();
+//   //print_r($response);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
 //update one unit
 
@@ -50,13 +50,13 @@ try {
 // }
 
 // get status of all units
-try {
-  $response = $job->unitsStatus();
-  print_r($response);
-  //print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// try {
+//   $response = $job->unitsStatus();
+//   print_r($response);
+//   //print_r($response);
+// } catch (Exception $e) {
+//   echo 'Caught exception: ',  $e->getMessage(), "\n";
+// }
 
 // TODO: cancel and delete do not work because the unit does not get sent back from Job::getUnits() with an ID??
 // // cancel a unit
