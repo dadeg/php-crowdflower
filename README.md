@@ -6,7 +6,7 @@
 ## Installation
 ### Add to composer.json
 ```
-  "dadeg/php-crowdflower": "v0.1.*"
+  "dadeg/php-crowdflower": "0.1.*"
 ```
 
 ### Update composer for existing projects
@@ -27,8 +27,11 @@ $crowd = new Account($apiKey);
 
 ## Getting existing Jobs
 ```php
-// get list of available jobs from account
+// get list of ten most recent jobs from account
 $jobs = $crowd->getJobs();
+
+// get list of ten jobs from account starting at page 2
+$jobs = $crowd->getJobs(2);
 
 // get job by job id
 $job = $crowd->getJob($jobId);
@@ -41,7 +44,8 @@ $job = $crowd->createJob();
 
 // create job with job info
 $job = $crowd->createJob(array(
-    "title" => "A brand new job"
+    "title" => "A brand new job",
+    "instructions" => "Follow these rules..."
 ));
 
 // jobs can also be created from a copy of an existing job
@@ -50,25 +54,14 @@ $jobCopy = $crowd->getJob($jobId)->copy();
 
 ## Adding Units
 ```php
-// create units from a file (This feature is not yet available)
-$units = $job->createUnits('crowdflower.csv');
-
-// create units from json (This feature is not yet available)
-$units = $job->createUnits('[{"sky_color": "blue"}, {"grass_color": "green"}]');
-
 // create units from array
-$units = $job->createUnits(array(
-    array('sky_color' => 'blue'),
-    array('grass_color' => 'green')
+$units = $job->createUnits(array (
+  array ("data" => array('column1' => 'value', 'column2' => 'value')),
+  array ("data" => array('column1' => 'value2', 'column2' => 'value2'))
 ));
 
 // units can also be created individually
-$unit = $job->createUnit(array('sky_color' => 'blue'));
-
-// or they can be created with a job (This feature may not be stable)
-$job = $crowd->createJob(array(
-    "units" => '[{"sky_color": "blue"}, {"grass_color": "green"}]'
-));
+$unit = $job->createUnit(array('data' => array('column1' => 'value', 'column2' => 'value')));
 ```
 
 ## Adding Orders
@@ -76,3 +69,9 @@ $job = $crowd->createJob(array(
 // jobs can create orders
 $order = $job->createOrder($numberOfUnits, $channels);
 ```
+
+## Notes
+When attributes are updated via the setAttribute() method, the changes are
+tracked and only those are sent to CrowdFlower when an update is made.
+
+The Request object is passed as a dependency in order to properly run tests.
