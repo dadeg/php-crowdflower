@@ -6,39 +6,53 @@ use CrowdFlower\Account;
 
 class AccountTest extends CrowdFlowerTestCase
 {
+    /**
+     * @vcr account_get_jobs
+     */
     public function testGetJobs()
     {
-        $jobsJson = file_get_contents(
-            $this->getFixturePath() . DIRECTORY_SEPARATOR . 'jobs.json'
-        );
-
-        $account = new Account($this->getMockedRequest($jobsJson));
+        $account = new Account(API_KEY);
         $jobs = $account->getJobs();
 
-        $this->assertEquals(12345, $jobs[0]->getId());
-        $this->assertEquals(6789, $jobs[1]->getId());
+        $this->assertEquals(529791, $jobs[0]->getId());
+        $this->assertEquals(529775, $jobs[1]->getId());
     }
 
+    /**
+     * @vcr account_get_job
+     */
+    public function testGetJob()
+    {
+        $account = new Account(API_KEY);
+        $jobId = 529791;
+        $job = $account->getJob($jobId);
+
+        $this->assertEquals($jobId, $job->getId());
+    }
+
+    /**
+     * @vcr account_create_empty_job
+     */
     public function testCreateEmptyJob()
     {
-        $createJobJson = file_get_contents(
-            $this->getFixturePath() . DIRECTORY_SEPARATOR . 'createJob.json'
-        );
-
-        $account = new Account($this->getMockedRequest($createJobJson));
+        $account = new Account(API_KEY);
         $job = $account->createJob();
 
-        $this->assertEquals(5091430, $job->getId());
+        $this->assertEquals(530880, $job->getId());
     }
 
+    /**
+     * @vcr account_create_job_with_title
+     */
     public function testCreateJobWithTitle()
     {
-        $createJobJson = file_get_contents(
-            $this->getFixturePath() . DIRECTORY_SEPARATOR . 'createJob.json'
+        $this->markTestIncomplete(
+              'Crowdflower is returning a job with a null title'
         );
+
         $title = "This is my new job";
 
-        $account = new Account($this->getMockedRequest($createJobJson));
+        $account = new Account(API_KEY);
         $job = $account->createJob(array(
             "title" => $title
         ));

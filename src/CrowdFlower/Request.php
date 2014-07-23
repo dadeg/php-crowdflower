@@ -21,7 +21,6 @@ class Request
      */
     public function send($method, $urlModifier, $data = null)
     {
-
         $url = $this->baseUrl . $urlModifier;
         if (stristr($url, "?")) {
            $url .= "&";
@@ -31,6 +30,11 @@ class Request
 
         $url .= "key=" . $this->apiKey;
 
+        return $this->curlRequest($url, $method, $data);
+    }
+
+    private function curlRequest($url, $method, $data)
+    {
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
