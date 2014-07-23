@@ -65,7 +65,7 @@ class JobTest extends CrowdFlowerTestCase
 
     /**
      * @vcr job_delete_error
-     * @expectedException        \CrowdFLower\CrowdFlowerException
+     * @expectedException        \CrowdFLower\Exception
      * @expectedExceptionMessage We couldn't find what you were looking for.
      */
     public function testDeleteError()
@@ -87,13 +87,13 @@ class JobTest extends CrowdFlowerTestCase
      */
     public function testCopy()
     {
-        $jobId = 530904;
-        $job = new Job($this->getRequest(), $jobId);
+        $job = new Job($this->getRequest());
+        $job->create();
 
         $jobCopy = $job->copy();
 
-        $this->assertEquals($jobId, $job->getId());
-        $this->assertEquals(511276, $jobCopy->getId());
+        $this->assertInternalType('integer', $job->getId());
+        $this->assertNotEquals($job->getId(), $jobCopy->getId());
     }
 
     public function testPause()
@@ -105,7 +105,7 @@ class JobTest extends CrowdFlowerTestCase
 
     /**
      * @vcr job_pause_error
-     * @expectedException        \CrowdFLower\CrowdFlowerException
+     * @expectedException        \CrowdFLower\Exception
      * @expectedExceptionMessage You can't pause a job that hasn't been launched.
      */
     public function testPauseError()
@@ -124,7 +124,7 @@ class JobTest extends CrowdFlowerTestCase
 
     /**
      * @vcr job_resume_error
-     * @expectedException        \CrowdFLower\CrowdFlowerException
+     * @expectedException        \CrowdFLower\Exception
      * @expectedExceptionMessage You can only resume jobs that are paused or complete.
      */
     public function testResumeError()
@@ -143,7 +143,7 @@ class JobTest extends CrowdFlowerTestCase
 
     /**
      * @vcr job_cancel_error
-     * @expectedException        \CrowdFLower\CrowdFlowerException
+     * @expectedException        \CrowdFLower\Exception
      * @expectedExceptionMessage You can't cancel a job that hasn't been launched.
      */
     public function testCancelError()
@@ -197,6 +197,10 @@ class JobTest extends CrowdFlowerTestCase
      */
     public function testCreateUnit()
     {
+        $this->markTestIncomplete(
+              "Can't test creating units"
+        );
+
         $job = new Job($this->getRequest());
         $job->create();
 
