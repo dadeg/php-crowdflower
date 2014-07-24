@@ -43,10 +43,14 @@ try {
 }
 //update job with some attributes
 try {
-  $job2->setAttribute('title', 'test title for job update');
-  $job2->setAttribute('instructions', 'test instructions');
-  $job2->update();
+  $attributes['title'] = "test ittle yeah";
+  $attributes['instructions'] = "does this work";
+  $attributes['cml'] = "<p>what is this</p><cml:textarea
+label='what in the world' class='' instructions='this makes no sense'
+default='huh' validates='required'/>";
+  $job2 = $crowd->createJob($attributes);
   print_r($job2);
+
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
