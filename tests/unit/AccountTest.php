@@ -11,7 +11,7 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testGetJobs()
     {
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $jobs = $account->getJobs();
 
         $this->assertEquals(529791, $jobs[0]->getId());
@@ -23,7 +23,7 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testGetJob()
     {
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $jobId = 529791;
         $job = $account->getJob($jobId);
 
@@ -35,7 +35,7 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testCreateEmptyJob()
     {
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $job = $account->createJob();
 
         $this->assertEquals(530880, $job->getId());
@@ -52,7 +52,7 @@ class AccountTest extends CrowdFlowerTestCase
 
         $title = "This is my new job";
 
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $job = $account->createJob(array(
             "title" => $title
         ));

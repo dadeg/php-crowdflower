@@ -1,23 +1,13 @@
 <?php
 
+use CrowdFlower\Request;
+
 abstract class CrowdFlowerTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected function getFixturePath()
+    private $apiKey = 'StQNgqJETkBvyvLU-iiK';
+
+    protected function getRequest()
     {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'fixtures';
-    }
-
-    protected function getMockedRequest($response)
-    {
-        $request = $this->getMockBuilder('CrowdFlower\Request')
-                        ->disableOriginalConstructor()
-                        ->setMethods(array('send'))
-                        ->getMock();
-
-        $request->expects($this->any())
-                ->method('send')
-                ->will($this->returnValue($response));
-
-        return $request;
+        return new Request($this->apiKey, 'https://api.crowdflower.com/v1/');
     }
 }

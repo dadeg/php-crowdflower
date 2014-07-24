@@ -3,7 +3,6 @@
 require_once('CrowdFlowerTestCase.php');
 
 use CrowdFlower\Job;
-use CrowdFlower\Request;
 
 class JobTest extends CrowdFlowerTestCase
 {
@@ -270,10 +269,5 @@ class JobTest extends CrowdFlowerTestCase
         $this->markTestIncomplete(
               'This test has not been implemented yet.'
         );
-    }
-
-    private function getRequest()
-    {
-        return new Request(API_KEY, 'https://api.crowdflower.com/v1/');
     }
 }
