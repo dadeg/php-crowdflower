@@ -13,5 +13,3 @@ require $composer;
 \VCR\VCR::configure()->setCassettePath('fixtures');
 
 \VCR\VCR::turnOn();
-
-const API_KEY = 'StQNgqJETkBvyvLU-iiK';

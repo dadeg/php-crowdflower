@@ -11,11 +11,12 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testGetJobs()
     {
-        $account = new Account(API_KEY);
-        $jobs = $account->getJobs();
+        $account = new Account($this->getRequest());
+        // TODO: shouldn't depend on createJob method, change to curl request
+        $account->createJob();
 
-        $this->assertEquals(529791, $jobs[0]->getId());
-        $this->assertEquals(529775, $jobs[1]->getId());
+        $jobs = $account->getJobs();
+        $this->assertInternalType('integer', $jobs[0]->getId());
     }
 
     /**
@@ -23,11 +24,12 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testGetJob()
     {
-        $account = new Account(API_KEY);
-        $jobId = 529791;
-        $job = $account->getJob($jobId);
+        $account = new Account($this->getRequest());
+        // TODO: shouldn't depend on createJob method, change to curl request
+        $createdJob = $account->createJob();
 
-        $this->assertEquals($jobId, $job->getId());
+        $job = $account->getJob($createdJob->getId());
+        $this->assertEquals($createdJob->getId(), $job->getId());
     }
 
     /**
@@ -35,10 +37,10 @@ class AccountTest extends CrowdFlowerTestCase
      */
     public function testCreateEmptyJob()
     {
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $job = $account->createJob();
 
-        $this->assertEquals(530880, $job->getId());
+        $this->assertInternalType('integer', $job->getId());
     }
 
     /**
@@ -47,12 +49,12 @@ class AccountTest extends CrowdFlowerTestCase
     public function testCreateJobWithTitle()
     {
         $this->markTestIncomplete(
-              'Crowdflower is returning a job with a null title'
+            'Crowdflower is returning a job with a null title'
         );
 
         $title = "This is my new job";
 
-        $account = new Account(API_KEY);
+        $account = new Account($this->getRequest());
         $job = $account->createJob(array(
             "title" => $title
         ));
