@@ -34,8 +34,23 @@ $crowd = new CrowdFlower\Account($apiKey);
 //copy the job
 try {
 
-  $basejob = $crowd->getJob('519075');
-  $job = $basejob->copy();
+  $job = $crowd->getJob('543816');
+  $job = $job->copy();
+  $options = $job->getAttribute('options');
+  $options->front_load = true;
+  $job->setAttribute('title', 'test title');
+  $job->update();
+  print_r($job->getId());
+  die();
+   $attributes = Array (
+        Array ("data" => Array('column1' => 'name', 'column2' => 'url')),
+        Array ("data" => Array('column1' => 'name2', 'column2' => 'url2'))
+      );
+   $job->createUnits($attributes);
+
+  print_r($job->getId());
+
+  die();
   $job2 = $basejob->copy();
 
 } catch (Exception $e) {

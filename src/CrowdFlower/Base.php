@@ -97,12 +97,21 @@ abstract class Base
         $parametersStr .= "&";
       }
 
-      //convert value to json if it is an object or array.
+      //add to key if it is an object or array.
       if (is_array($v) || is_object($v)) {
-        $v = json_encode($v);
+        $j = 0;
+        foreach ((array) $v as $k2 => $v2) {
+          if ($i++ > 0) {
+            $parametersStr .= "&";
+          }
+          $parametersStr .= $this->objectType. "[" . urlencode($k) . "][" . $k2 . "]=" . $v2;
+        }
+      } else {
+        $parametersStr .= $this->objectType. "[" . urlencode($k) . "]";
+        $parametersStr .= "=" . urlencode($v);
       }
 
-      $parametersStr .= $this->objectType. "[" . urlencode($k) . "]=" . urlencode($v);
+
     }
     return $parametersStr;
   }
