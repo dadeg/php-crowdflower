@@ -104,7 +104,7 @@ abstract class Base
           if ($i++ > 0) {
             $parametersStr .= "&";
           }
-          $parametersStr .= $this->objectType. "[" . urlencode($k) . "][" . $k2 . "]=" . $v2;
+          $parametersStr .= $this->objectType. "[" . urlencode($k) . "][" . urlencode($k2) . "]=" . urlencode($v2);
         }
       } else {
         $parametersStr .= $this->objectType. "[" . urlencode($k) . "]";

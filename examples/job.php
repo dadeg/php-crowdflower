@@ -35,24 +35,28 @@ $crowd = new CrowdFlower\Account($apiKey);
 try {
 
   $job = $crowd->getJob('543816');
-  $job = $job->copy();
-  $options = $job->getAttribute('options');
-  $options->front_load = true;
-  $job->setAttribute('title', 'test title');
-  $job->update();
-  print_r($job->getId());
-  die();
-   $attributes = Array (
-        Array ("data" => Array('column1' => 'name', 'column2' => 'url')),
-        Array ("data" => Array('column1' => 'name2', 'column2' => 'url2'))
-      );
-   $job->createUnits($attributes);
-
-  print_r($job->getId());
-
-  die();
-  $job2 = $basejob->copy();
-
+  $unit = array(
+'data' => array(
+                    'offer_id' => '2204930',
+                    'buy_url' => 'http://click.linksynergy.com/link?id=qpF0HYnRugA&offerid=322116.28374174&type=15&murl=http%3A%2F%2Fwww.onehanesplace.com%2Foutlet%2Fbras%2Fbali-bra%2Fbali-live-it-up-seamless-underwire-bra%3Fd1%3DLINKSO%26cm_mmc%3DLinkshare-_-Bras-_-Underwire%2520Bras%252',
+                    'list_price' => '38.00',
+                    'selling_price' => '17.00',
+                    'end_date' => '2014-07-29',
+                    'name' => 'One Hanes Place',
+                    'platform' => 'ls',
+                    '_gold' => '',
+                    'has_original_price' => '',
+                    'has_original_price_gold' => '',
+                    'has_sale_price' => '',
+                    'has_sale_price_gold' => '',
+                    'sale_price' => '',
+                    'sale_price_gold' => '',
+                    'original_price' => '',
+                    'original_price_gold' => ''
+                )
+    );
+ print_r( $job->createUnit($unit));
+die();
 } catch (Exception $e) {
   echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
