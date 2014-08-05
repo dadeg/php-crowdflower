@@ -6,78 +6,79 @@ use CrowdFlower\Account;
 
 $apiKey = 'StQNgqJETkBvyvLU-iiK';
 
+
+/**
+ *
+ * Instatiate the container that fetches jobs.
+ */
 $crowd = new CrowdFlower\Account($apiKey);
 
-//create a job with no attributes
-try {
-  $job = $crowd->createJob();
-  //print_r($job);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
 
-//create two units for job
- $attributes = Array (
-        Array ("data" => Array('column1' => 'name', 'column2' => 'url')),
-        Array ("data" => Array('column1' => 'name2', 'column2' => 'url2'))
-      );
-try {
-  $response = $job->createUnits($attributes);
-  print_r($job);
-  print_r($response);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+/**
+ *
+ * Fetch units for a job.
+ */
 
-// get units for job
+// Find all of the units
+$units = $job->getUnits();
 
-// try {
-//   $response = $job->getUnits();
-//   //print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+// Or find a single unit by Unit ID
+$unitId = 456;
 
-//update one unit
-
-// try {
-//   $job->getUnit(0)->setAttribute("data", Array('column1' => 'name updated', 'column2' => 'url updated'));
-//   $job->getUnit(0)->update();
-//   print_r($job->getUnit(0));
-//   //print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-
-// get status of all units
-// try {
-//   $response = $job->unitsStatus();
-//   print_r($response);
-//   //print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-
-// TODO: cancel and delete do not work because the unit does not get sent back from Job::getUnits() with an ID??
-// // cancel a unit
-// try {
-//   $units = $job->getUnits();
-//   print_r($units);
-//   $response = $units[0]->cancel();
-//   print_r($response);
-//   //print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
-
-// // delete a unit
-// try {
-//   $units = $job->getUnits();
-//   $response = $units[0]->delete();
-//   print_r($response);
-//   //print_r($response);
-// } catch (Exception $e) {
-//   echo 'Caught exception: ',  $e->getMessage(), "\n";
-// }
+$unit = $job->getUnit($unitId);
 
 
+
+/**
+ *
+ * Create units for a job.
+ */
+
+// First get the job we want to add units to.
+$jobId = 123;
+$job = $crowd->getJob($jobId);
+// Units can be created one at a time..
+$unit = Array ("data" => Array('column1' => 'name', 'column2' => 'url'));
+
+$job->createUnit($unit);
+
+// or in an array with multiple units.
+ $units = Array (
+                 Array ("data" => Array('column1' => 'name', 'column2' => 'url')),
+                 Array ("data" => Array('column1' => 'name2', 'column2' => 'url2'))
+               );
+
+$job->createUnits($units);
+
+
+
+/**
+ *
+ * Update units for a job.
+ */
+
+// First update an attribute.
+$unit->setAttribute("data", Array('column1' => 'name updated', 'column2' => 'url updated'));
+// Then update it on CrowdFlower's service.
+$unit->update();
+
+/**
+ *
+ * Get the status of all units in a job.
+ */
+
+$statuses = $job->UnitsStatus();
+
+/**
+ *
+ * Cancel a unit.
+ */
+
+$unit->cancel();
+
+/**
+ *
+ * Delete a unit.
+ */
+
+$unit->delete();

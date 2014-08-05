@@ -6,20 +6,18 @@ use CrowdFlower\Account;
 
 $apiKey = 'StQNgqJETkBvyvLU-iiK';
 
+/**
+ *
+ * Instatiate the container that fetches jobs.
+ */
 $crowd = new CrowdFlower\Account($apiKey);
 
-//create a job with no attributes
-try {
-  $job = $crowd->createJob();
-  //print_r($job);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// Find a job to create an order for.
+$jobId = 123;
+$job = $crowd->getJob($jobId);
 
-// create an order for this job.
-try {
-  $response = $job->createOrder(0, "cf_internal");
-  //print_r($job);
-} catch (Exception $e) {
-  echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+// Create the order. $numUnits is the number of units. 0 = all. $channels default is 'on_demand'
+
+$numUnits = 0;
+$channels = 'cf_internal';
+$order = $job->createOrder($numUnits, $channels);

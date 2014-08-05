@@ -241,7 +241,7 @@ class Job extends Base
 
     return $judgment;
   }
-
+// TODO: channel methods do not seem to work.
   public function getChannels()
   {
     if ($this->getId() === null) { throw new Exception('job_id'); }
