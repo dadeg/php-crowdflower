@@ -1,7 +1,8 @@
 # PHP Crowdflower API integration.
 [![Code Climate](https://codeclimate.com/github/dadeg/php-crowdflower.png)](https://codeclimate.com/github/dadeg/php-crowdflower)
 [![Build Status](https://travis-ci.org/dadeg/php-crowdflower.svg?branch=master)](https://travis-ci.org/dadeg/php-crowdflower)
-## Currently under heavy development
+
+There are examples of every method of interacting with the CrowdFlower API in the examples folder.
 
 ## Installation
 ### Add to composer.json
