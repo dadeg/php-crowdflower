@@ -2,7 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/dadeg/php-crowdflower.png)](https://codeclimate.com/github/dadeg/php-crowdflower)
 [![Build Status](https://travis-ci.org/dadeg/php-crowdflower.svg?branch=master)](https://travis-ci.org/dadeg/php-crowdflower)
 
-There are examples of every method of interacting with the CrowdFlower API in the examples folder.
+There are examples of every method of interacting with the CrowdFlower API in the examples folder. The tests are almost at full coverage. I use this package daily and it has been reliable. In order to run the tests yourself you will need to replace the API key in tests/fixtures with your own API key.
 
 ## Installation
 ### Add to composer.json

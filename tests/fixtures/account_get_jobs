@@ -2,7 +2,7 @@
 -
     request:
         method: POST
-        url: 'https://api.crowdflower.com/v1/jobs.json?key=StQNgqJETkBvyvLU-iiK'
+        url: 'https://api.crowdflower.com/v1/jobs.json?key=jLByZLxtuyWV9x6g-Msq'
         headers:
             Host: api.crowdflower.com
     response:
@@ -22,7 +22,7 @@
 -
     request:
         method: GET
-        url: 'https://api.crowdflower.com/v1/jobs.json/?page=1&key=StQNgqJETkBvyvLU-iiK'
+        url: 'https://api.crowdflower.com/v1/jobs.json/?page=1&key=jLByZLxtuyWV9x6g-Msq'
         headers:
             Host: api.crowdflower.com
             Content-Length: '0'

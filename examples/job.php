@@ -4,7 +4,7 @@ require("../vendor/autoload.php");
 
 use CrowdFlower\Account;
 
-$apiKey = 'StQNgqJETkBvyvLU-iiK';
+$apiKey = 'jLByZLxtuyWV9x6g-Msq';
 
 
 // Missing examples and functionality: upload(), getChannels(), setChannels()
